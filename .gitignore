@@ -1,1 +1,4 @@
+/go.work
+/go.work.sum
+
 /protoc-gen-orm-go

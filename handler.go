@@ -3,17 +3,16 @@ package main
 import (
 	"context"
 	"fmt"
-	"text/template"
 
 	"github.com/protobuf-orm/protobuf-orm/graph"
-	"github.com/protobuf-orm/protoc-gen-orm-go/app"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/types/descriptorpb"
 	"google.golang.org/protobuf/types/pluginpb"
 )
 
 type Handler struct {
-	Namer string
+	Store StoreOpts
+	Query QueryOpts
 }
 
 func (h *Handler) Run(p *protogen.Plugin) error {
@@ -23,20 +22,6 @@ func (h *Handler) Run(p *protogen.Plugin) error {
 		pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL |
 		pluginpb.CodeGeneratorResponse_FEATURE_SUPPORTS_EDITIONS,
 	)
-
-	opts := []app.Option{}
-	if h.Namer != "" {
-		v, err := template.New("namer").Parse(h.Namer)
-		if err != nil {
-			return fmt.Errorf("opt.namer: %w", err)
-		}
-		opts = append(opts, app.WithNamer(v))
-	}
-
-	app, err := app.New(opts...)
-	if err != nil {
-		return fmt.Errorf("initialize plugin: %w", err)
-	}
 
 	ctx := context.Background()
 	// TODO: set logger
@@ -48,5 +33,12 @@ func (h *Handler) Run(p *protogen.Plugin) error {
 		}
 	}
 
-	return app.Run(ctx, p, g)
+	if err := h.Store.Run(ctx, p, g); err != nil {
+		return fmt.Errorf("run store app: %w", err)
+	}
+	if err := h.Query.Run(ctx, p, g); err != nil {
+		return fmt.Errorf("run query app: %w", err)
+	}
+
+	return nil
 }
