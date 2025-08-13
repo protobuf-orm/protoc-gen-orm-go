@@ -13,7 +13,11 @@ plugins:
     out: .
     opt:
       - module=github.com/protobuf-orm/protoc-gen-orm-go
-  - local: ./protoc-gen-orm-go
+  - local: [go, run, github.com/protobuf-orm/protoc-gen-orm-service]
+    out: ./proto
+    opt:
+      - namer={{.Name}}_svc.g.proto
+  - local: [go, run, "."]
     out: .
     opt:
       - module=github.com/protobuf-orm/protoc-gen-orm-go

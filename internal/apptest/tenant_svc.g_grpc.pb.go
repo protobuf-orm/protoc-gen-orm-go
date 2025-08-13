@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             (unknown)
-// source: apptest/tenant.proto_svc.g.proto
+// source: apptest/tenant_svc.g.proto
 
 package apptest
 
@@ -30,9 +30,13 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TenantServiceClient interface {
+	// Add creates a new Tenant
 	Add(ctx context.Context, in *TenantAddRequest, opts ...grpc.CallOption) (*Tenant, error)
+	// Get retrieves a Tenant
 	Get(ctx context.Context, in *TenantGetRequest, opts ...grpc.CallOption) (*Tenant, error)
+	// Patch updates an existing Tenant
 	Patch(ctx context.Context, in *TenantPatchRequest, opts ...grpc.CallOption) (*Tenant, error)
+	// Erase deletes a Tenant
 	Erase(ctx context.Context, in *TenantRef, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
@@ -88,9 +92,13 @@ func (c *tenantServiceClient) Erase(ctx context.Context, in *TenantRef, opts ...
 // All implementations must embed UnimplementedTenantServiceServer
 // for forward compatibility.
 type TenantServiceServer interface {
+	// Add creates a new Tenant
 	Add(context.Context, *TenantAddRequest) (*Tenant, error)
+	// Get retrieves a Tenant
 	Get(context.Context, *TenantGetRequest) (*Tenant, error)
+	// Patch updates an existing Tenant
 	Patch(context.Context, *TenantPatchRequest) (*Tenant, error)
+	// Erase deletes a Tenant
 	Erase(context.Context, *TenantRef) (*emptypb.Empty, error)
 	mustEmbedUnimplementedTenantServiceServer()
 }
@@ -232,5 +240,5 @@ var TenantService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "apptest/tenant.proto_svc.g.proto",
+	Metadata: "apptest/tenant_svc.g.proto",
 }

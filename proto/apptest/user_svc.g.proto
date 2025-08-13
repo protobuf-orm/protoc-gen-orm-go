@@ -5,7 +5,7 @@ edition = "2023";
 
 package apptest;
 
-import "apptest/tenant.proto_svc.g.proto";
+import "apptest/tenant_svc.g.proto";
 import "apptest/user.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
@@ -13,9 +13,13 @@ import "google/protobuf/timestamp.proto";
 option go_package = "github.com/protobuf-orm/protoc-gen-orm-go/internal/apptest";
 
 service UserService {
+	// Add creates a new User
 	rpc Add(UserAddRequest) returns (User);
+	// Get retrieves a User
 	rpc Get(UserGetRequest) returns (User);
+	// Patch updates an existing User
 	rpc Patch(UserPatchRequest) returns (User);
+	// Erase deletes a User
 	rpc Erase(UserRef) returns (google.protobuf.Empty);
 }
 
@@ -23,10 +27,10 @@ message UserAddRequest {
 	bytes id = 1;
 	TenantRef tenant = 2;
 	string alias = 4 [
-		features.field_presence = IMPLICIT
+		features.field_presence = EXPLICIT
 	];
 	string name = 5 [
-		features.field_presence = IMPLICIT
+		features.field_presence = EXPLICIT
 	];
 	map<string,string> labels = 7;
 	google.protobuf.Timestamp date_created = 15;

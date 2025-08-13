@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: apptest/tenant.proto_svc.g.proto
+// source: apptest/tenant_svc.g.proto
 
 package apptest
 
@@ -25,8 +25,8 @@ const (
 type TenantAddRequest struct {
 	state                  protoimpl.MessageState `protogen:"opaque.v1"`
 	xxx_hidden_Id          []byte                 `protobuf:"bytes,1,opt,name=id"`
-	xxx_hidden_Alias       string                 `protobuf:"bytes,4,opt,name=alias"`
-	xxx_hidden_Name        string                 `protobuf:"bytes,5,opt,name=name"`
+	xxx_hidden_Alias       *string                `protobuf:"bytes,4,opt,name=alias"`
+	xxx_hidden_Name        *string                `protobuf:"bytes,5,opt,name=name"`
 	xxx_hidden_Labels      map[string]string      `protobuf:"bytes,7,rep,name=labels" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	xxx_hidden_DateCreated *timestamppb.Timestamp `protobuf:"bytes,15,opt,name=date_created,json=dateCreated"`
 	XXX_raceDetectHookData protoimpl.RaceDetectHookData
@@ -37,7 +37,7 @@ type TenantAddRequest struct {
 
 func (x *TenantAddRequest) Reset() {
 	*x = TenantAddRequest{}
-	mi := &file_apptest_tenant_proto_svc_g_proto_msgTypes[0]
+	mi := &file_apptest_tenant_svc_g_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -49,7 +49,7 @@ func (x *TenantAddRequest) String() string {
 func (*TenantAddRequest) ProtoMessage() {}
 
 func (x *TenantAddRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_apptest_tenant_proto_svc_g_proto_msgTypes[0]
+	mi := &file_apptest_tenant_svc_g_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -69,14 +69,20 @@ func (x *TenantAddRequest) GetId() []byte {
 
 func (x *TenantAddRequest) GetAlias() string {
 	if x != nil {
-		return x.xxx_hidden_Alias
+		if x.xxx_hidden_Alias != nil {
+			return *x.xxx_hidden_Alias
+		}
+		return ""
 	}
 	return ""
 }
 
 func (x *TenantAddRequest) GetName() string {
 	if x != nil {
-		return x.xxx_hidden_Name
+		if x.xxx_hidden_Name != nil {
+			return *x.xxx_hidden_Name
+		}
+		return ""
 	}
 	return ""
 }
@@ -104,11 +110,13 @@ func (x *TenantAddRequest) SetId(v []byte) {
 }
 
 func (x *TenantAddRequest) SetAlias(v string) {
-	x.xxx_hidden_Alias = v
+	x.xxx_hidden_Alias = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 1, 5)
 }
 
 func (x *TenantAddRequest) SetName(v string) {
-	x.xxx_hidden_Name = v
+	x.xxx_hidden_Name = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 2, 5)
 }
 
 func (x *TenantAddRequest) SetLabels(v map[string]string) {
@@ -126,6 +134,20 @@ func (x *TenantAddRequest) HasId() bool {
 	return protoimpl.X.Present(&(x.XXX_presence[0]), 0)
 }
 
+func (x *TenantAddRequest) HasAlias() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 1)
+}
+
+func (x *TenantAddRequest) HasName() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 2)
+}
+
 func (x *TenantAddRequest) HasDateCreated() bool {
 	if x == nil {
 		return false
@@ -138,6 +160,16 @@ func (x *TenantAddRequest) ClearId() {
 	x.xxx_hidden_Id = nil
 }
 
+func (x *TenantAddRequest) ClearAlias() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 1)
+	x.xxx_hidden_Alias = nil
+}
+
+func (x *TenantAddRequest) ClearName() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 2)
+	x.xxx_hidden_Name = nil
+}
+
 func (x *TenantAddRequest) ClearDateCreated() {
 	x.xxx_hidden_DateCreated = nil
 }
@@ -146,8 +178,8 @@ type TenantAddRequest_builder struct {
 	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
 
 	Id          []byte
-	Alias       string
-	Name        string
+	Alias       *string
+	Name        *string
 	Labels      map[string]string
 	DateCreated *timestamppb.Timestamp
 }
@@ -160,8 +192,14 @@ func (b0 TenantAddRequest_builder) Build() *TenantAddRequest {
 		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 0, 5)
 		x.xxx_hidden_Id = b.Id
 	}
-	x.xxx_hidden_Alias = b.Alias
-	x.xxx_hidden_Name = b.Name
+	if b.Alias != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 1, 5)
+		x.xxx_hidden_Alias = b.Alias
+	}
+	if b.Name != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 2, 5)
+		x.xxx_hidden_Name = b.Name
+	}
 	x.xxx_hidden_Labels = b.Labels
 	x.xxx_hidden_DateCreated = b.DateCreated
 	return m0
@@ -176,7 +214,7 @@ type TenantRef struct {
 
 func (x *TenantRef) Reset() {
 	*x = TenantRef{}
-	mi := &file_apptest_tenant_proto_svc_g_proto_msgTypes[1]
+	mi := &file_apptest_tenant_svc_g_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -188,7 +226,7 @@ func (x *TenantRef) String() string {
 func (*TenantRef) ProtoMessage() {}
 
 func (x *TenantRef) ProtoReflect() protoreflect.Message {
-	mi := &file_apptest_tenant_proto_svc_g_proto_msgTypes[1]
+	mi := &file_apptest_tenant_svc_g_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -276,7 +314,7 @@ func (b0 TenantRef_builder) Build() *TenantRef {
 type case_TenantRef_Key protoreflect.FieldNumber
 
 func (x case_TenantRef_Key) String() string {
-	md := file_apptest_tenant_proto_svc_g_proto_msgTypes[1].Descriptor()
+	md := file_apptest_tenant_svc_g_proto_msgTypes[1].Descriptor()
 	if x == 0 {
 		return "not set"
 	}
@@ -308,7 +346,7 @@ type TenantSelect struct {
 
 func (x *TenantSelect) Reset() {
 	*x = TenantSelect{}
-	mi := &file_apptest_tenant_proto_svc_g_proto_msgTypes[2]
+	mi := &file_apptest_tenant_svc_g_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -320,7 +358,7 @@ func (x *TenantSelect) String() string {
 func (*TenantSelect) ProtoMessage() {}
 
 func (x *TenantSelect) ProtoReflect() protoreflect.Message {
-	mi := &file_apptest_tenant_proto_svc_g_proto_msgTypes[2]
+	mi := &file_apptest_tenant_svc_g_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -498,7 +536,7 @@ type TenantGetRequest struct {
 
 func (x *TenantGetRequest) Reset() {
 	*x = TenantGetRequest{}
-	mi := &file_apptest_tenant_proto_svc_g_proto_msgTypes[3]
+	mi := &file_apptest_tenant_svc_g_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -510,7 +548,7 @@ func (x *TenantGetRequest) String() string {
 func (*TenantGetRequest) ProtoMessage() {}
 
 func (x *TenantGetRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_apptest_tenant_proto_svc_g_proto_msgTypes[3]
+	mi := &file_apptest_tenant_svc_g_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -595,7 +633,7 @@ type TenantPatchRequest struct {
 
 func (x *TenantPatchRequest) Reset() {
 	*x = TenantPatchRequest{}
-	mi := &file_apptest_tenant_proto_svc_g_proto_msgTypes[4]
+	mi := &file_apptest_tenant_svc_g_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -607,7 +645,7 @@ func (x *TenantPatchRequest) String() string {
 func (*TenantPatchRequest) ProtoMessage() {}
 
 func (x *TenantPatchRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_apptest_tenant_proto_svc_g_proto_msgTypes[4]
+	mi := &file_apptest_tenant_svc_g_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -731,15 +769,15 @@ func (b0 TenantPatchRequest_builder) Build() *TenantPatchRequest {
 	return m0
 }
 
-var File_apptest_tenant_proto_svc_g_proto protoreflect.FileDescriptor
+var File_apptest_tenant_svc_g_proto protoreflect.FileDescriptor
 
-const file_apptest_tenant_proto_svc_g_proto_rawDesc = "" +
+const file_apptest_tenant_svc_g_proto_rawDesc = "" +
 	"\n" +
-	" apptest/tenant.proto_svc.g.proto\x12\aapptest\x1a\x14apptest/tenant.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x93\x02\n" +
+	"\x1aapptest/tenant_svc.g.proto\x12\aapptest\x1a\x14apptest/tenant.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x93\x02\n" +
 	"\x10TenantAddRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\fR\x02id\x12\x1b\n" +
-	"\x05alias\x18\x04 \x01(\tB\x05\xaa\x01\x02\b\x02R\x05alias\x12\x19\n" +
-	"\x04name\x18\x05 \x01(\tB\x05\xaa\x01\x02\b\x02R\x04name\x12=\n" +
+	"\x05alias\x18\x04 \x01(\tB\x05\xaa\x01\x02\b\x01R\x05alias\x12\x19\n" +
+	"\x04name\x18\x05 \x01(\tB\x05\xaa\x01\x02\b\x01R\x04name\x12=\n" +
 	"\x06labels\x18\a \x03(\v2%.apptest.TenantAddRequest.LabelsEntryR\x06labels\x12=\n" +
 	"\fdate_created\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampR\vdateCreated\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +
@@ -771,8 +809,8 @@ const file_apptest_tenant_proto_svc_g_proto_rawDesc = "" +
 	"\x05Patch\x12\x1b.apptest.TenantPatchRequest\x1a\x0f.apptest.Tenant\x123\n" +
 	"\x05Erase\x12\x12.apptest.TenantRef\x1a\x16.google.protobuf.EmptyB<Z:github.com/protobuf-orm/protoc-gen-orm-go/internal/apptestb\beditionsp\xe8\a"
 
-var file_apptest_tenant_proto_svc_g_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
-var file_apptest_tenant_proto_svc_g_proto_goTypes = []any{
+var file_apptest_tenant_svc_g_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_apptest_tenant_svc_g_proto_goTypes = []any{
 	(*TenantAddRequest)(nil),      // 0: apptest.TenantAddRequest
 	(*TenantRef)(nil),             // 1: apptest.TenantRef
 	(*TenantSelect)(nil),          // 2: apptest.TenantSelect
@@ -784,7 +822,7 @@ var file_apptest_tenant_proto_svc_g_proto_goTypes = []any{
 	(*Tenant)(nil),                // 8: apptest.Tenant
 	(*emptypb.Empty)(nil),         // 9: google.protobuf.Empty
 }
-var file_apptest_tenant_proto_svc_g_proto_depIdxs = []int32{
+var file_apptest_tenant_svc_g_proto_depIdxs = []int32{
 	5,  // 0: apptest.TenantAddRequest.labels:type_name -> apptest.TenantAddRequest.LabelsEntry
 	7,  // 1: apptest.TenantAddRequest.date_created:type_name -> google.protobuf.Timestamp
 	1,  // 2: apptest.TenantGetRequest.ref:type_name -> apptest.TenantRef
@@ -806,30 +844,30 @@ var file_apptest_tenant_proto_svc_g_proto_depIdxs = []int32{
 	0,  // [0:6] is the sub-list for field type_name
 }
 
-func init() { file_apptest_tenant_proto_svc_g_proto_init() }
-func file_apptest_tenant_proto_svc_g_proto_init() {
-	if File_apptest_tenant_proto_svc_g_proto != nil {
+func init() { file_apptest_tenant_svc_g_proto_init() }
+func file_apptest_tenant_svc_g_proto_init() {
+	if File_apptest_tenant_svc_g_proto != nil {
 		return
 	}
 	file_apptest_tenant_proto_init()
-	file_apptest_tenant_proto_svc_g_proto_msgTypes[1].OneofWrappers = []any{
+	file_apptest_tenant_svc_g_proto_msgTypes[1].OneofWrappers = []any{
 		(*tenantRef_Id)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_apptest_tenant_proto_svc_g_proto_rawDesc), len(file_apptest_tenant_proto_svc_g_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_apptest_tenant_svc_g_proto_rawDesc), len(file_apptest_tenant_svc_g_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_apptest_tenant_proto_svc_g_proto_goTypes,
-		DependencyIndexes: file_apptest_tenant_proto_svc_g_proto_depIdxs,
-		MessageInfos:      file_apptest_tenant_proto_svc_g_proto_msgTypes,
+		GoTypes:           file_apptest_tenant_svc_g_proto_goTypes,
+		DependencyIndexes: file_apptest_tenant_svc_g_proto_depIdxs,
+		MessageInfos:      file_apptest_tenant_svc_g_proto_msgTypes,
 	}.Build()
-	File_apptest_tenant_proto_svc_g_proto = out.File
-	file_apptest_tenant_proto_svc_g_proto_goTypes = nil
-	file_apptest_tenant_proto_svc_g_proto_depIdxs = nil
+	File_apptest_tenant_svc_g_proto = out.File
+	file_apptest_tenant_svc_g_proto_goTypes = nil
+	file_apptest_tenant_svc_g_proto_depIdxs = nil
 }

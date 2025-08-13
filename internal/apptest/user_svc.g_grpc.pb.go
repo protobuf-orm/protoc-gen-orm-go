@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             (unknown)
-// source: apptest/user.proto_svc.g.proto
+// source: apptest/user_svc.g.proto
 
 package apptest
 
@@ -30,9 +30,13 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
+	// Add creates a new User
 	Add(ctx context.Context, in *UserAddRequest, opts ...grpc.CallOption) (*User, error)
+	// Get retrieves a User
 	Get(ctx context.Context, in *UserGetRequest, opts ...grpc.CallOption) (*User, error)
+	// Patch updates an existing User
 	Patch(ctx context.Context, in *UserPatchRequest, opts ...grpc.CallOption) (*User, error)
+	// Erase deletes a User
 	Erase(ctx context.Context, in *UserRef, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
@@ -88,9 +92,13 @@ func (c *userServiceClient) Erase(ctx context.Context, in *UserRef, opts ...grpc
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility.
 type UserServiceServer interface {
+	// Add creates a new User
 	Add(context.Context, *UserAddRequest) (*User, error)
+	// Get retrieves a User
 	Get(context.Context, *UserGetRequest) (*User, error)
+	// Patch updates an existing User
 	Patch(context.Context, *UserPatchRequest) (*User, error)
+	// Erase deletes a User
 	Erase(context.Context, *UserRef) (*emptypb.Empty, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
@@ -232,5 +240,5 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "apptest/user.proto_svc.g.proto",
+	Metadata: "apptest/user_svc.g.proto",
 }

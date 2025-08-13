@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: apptest/user.proto_svc.g.proto
+// source: apptest/user_svc.g.proto
 
 package apptest
 
@@ -26,8 +26,8 @@ type UserAddRequest struct {
 	state                  protoimpl.MessageState `protogen:"opaque.v1"`
 	xxx_hidden_Id          []byte                 `protobuf:"bytes,1,opt,name=id"`
 	xxx_hidden_Tenant      *TenantRef             `protobuf:"bytes,2,opt,name=tenant"`
-	xxx_hidden_Alias       string                 `protobuf:"bytes,4,opt,name=alias"`
-	xxx_hidden_Name        string                 `protobuf:"bytes,5,opt,name=name"`
+	xxx_hidden_Alias       *string                `protobuf:"bytes,4,opt,name=alias"`
+	xxx_hidden_Name        *string                `protobuf:"bytes,5,opt,name=name"`
 	xxx_hidden_Labels      map[string]string      `protobuf:"bytes,7,rep,name=labels" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	xxx_hidden_DateCreated *timestamppb.Timestamp `protobuf:"bytes,15,opt,name=date_created,json=dateCreated"`
 	XXX_raceDetectHookData protoimpl.RaceDetectHookData
@@ -38,7 +38,7 @@ type UserAddRequest struct {
 
 func (x *UserAddRequest) Reset() {
 	*x = UserAddRequest{}
-	mi := &file_apptest_user_proto_svc_g_proto_msgTypes[0]
+	mi := &file_apptest_user_svc_g_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -50,7 +50,7 @@ func (x *UserAddRequest) String() string {
 func (*UserAddRequest) ProtoMessage() {}
 
 func (x *UserAddRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_apptest_user_proto_svc_g_proto_msgTypes[0]
+	mi := &file_apptest_user_svc_g_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -77,14 +77,20 @@ func (x *UserAddRequest) GetTenant() *TenantRef {
 
 func (x *UserAddRequest) GetAlias() string {
 	if x != nil {
-		return x.xxx_hidden_Alias
+		if x.xxx_hidden_Alias != nil {
+			return *x.xxx_hidden_Alias
+		}
+		return ""
 	}
 	return ""
 }
 
 func (x *UserAddRequest) GetName() string {
 	if x != nil {
-		return x.xxx_hidden_Name
+		if x.xxx_hidden_Name != nil {
+			return *x.xxx_hidden_Name
+		}
+		return ""
 	}
 	return ""
 }
@@ -116,11 +122,13 @@ func (x *UserAddRequest) SetTenant(v *TenantRef) {
 }
 
 func (x *UserAddRequest) SetAlias(v string) {
-	x.xxx_hidden_Alias = v
+	x.xxx_hidden_Alias = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 2, 6)
 }
 
 func (x *UserAddRequest) SetName(v string) {
-	x.xxx_hidden_Name = v
+	x.xxx_hidden_Name = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 3, 6)
 }
 
 func (x *UserAddRequest) SetLabels(v map[string]string) {
@@ -145,6 +153,20 @@ func (x *UserAddRequest) HasTenant() bool {
 	return x.xxx_hidden_Tenant != nil
 }
 
+func (x *UserAddRequest) HasAlias() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 2)
+}
+
+func (x *UserAddRequest) HasName() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 3)
+}
+
 func (x *UserAddRequest) HasDateCreated() bool {
 	if x == nil {
 		return false
@@ -161,6 +183,16 @@ func (x *UserAddRequest) ClearTenant() {
 	x.xxx_hidden_Tenant = nil
 }
 
+func (x *UserAddRequest) ClearAlias() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 2)
+	x.xxx_hidden_Alias = nil
+}
+
+func (x *UserAddRequest) ClearName() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 3)
+	x.xxx_hidden_Name = nil
+}
+
 func (x *UserAddRequest) ClearDateCreated() {
 	x.xxx_hidden_DateCreated = nil
 }
@@ -170,8 +202,8 @@ type UserAddRequest_builder struct {
 
 	Id          []byte
 	Tenant      *TenantRef
-	Alias       string
-	Name        string
+	Alias       *string
+	Name        *string
 	Labels      map[string]string
 	DateCreated *timestamppb.Timestamp
 }
@@ -185,8 +217,14 @@ func (b0 UserAddRequest_builder) Build() *UserAddRequest {
 		x.xxx_hidden_Id = b.Id
 	}
 	x.xxx_hidden_Tenant = b.Tenant
-	x.xxx_hidden_Alias = b.Alias
-	x.xxx_hidden_Name = b.Name
+	if b.Alias != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 2, 6)
+		x.xxx_hidden_Alias = b.Alias
+	}
+	if b.Name != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 3, 6)
+		x.xxx_hidden_Name = b.Name
+	}
 	x.xxx_hidden_Labels = b.Labels
 	x.xxx_hidden_DateCreated = b.DateCreated
 	return m0
@@ -204,7 +242,7 @@ type UserRefByAlias struct {
 
 func (x *UserRefByAlias) Reset() {
 	*x = UserRefByAlias{}
-	mi := &file_apptest_user_proto_svc_g_proto_msgTypes[1]
+	mi := &file_apptest_user_svc_g_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -216,7 +254,7 @@ func (x *UserRefByAlias) String() string {
 func (*UserRefByAlias) ProtoMessage() {}
 
 func (x *UserRefByAlias) ProtoReflect() protoreflect.Message {
-	mi := &file_apptest_user_proto_svc_g_proto_msgTypes[1]
+	mi := &file_apptest_user_svc_g_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -304,7 +342,7 @@ type UserRef struct {
 
 func (x *UserRef) Reset() {
 	*x = UserRef{}
-	mi := &file_apptest_user_proto_svc_g_proto_msgTypes[2]
+	mi := &file_apptest_user_svc_g_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -316,7 +354,7 @@ func (x *UserRef) String() string {
 func (*UserRef) ProtoMessage() {}
 
 func (x *UserRef) ProtoReflect() protoreflect.Message {
-	mi := &file_apptest_user_proto_svc_g_proto_msgTypes[2]
+	mi := &file_apptest_user_svc_g_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -442,7 +480,7 @@ func (b0 UserRef_builder) Build() *UserRef {
 type case_UserRef_Key protoreflect.FieldNumber
 
 func (x case_UserRef_Key) String() string {
-	md := file_apptest_user_proto_svc_g_proto_msgTypes[2].Descriptor()
+	md := file_apptest_user_svc_g_proto_msgTypes[2].Descriptor()
 	if x == 0 {
 		return "not set"
 	}
@@ -481,7 +519,7 @@ type UserSelect struct {
 
 func (x *UserSelect) Reset() {
 	*x = UserSelect{}
-	mi := &file_apptest_user_proto_svc_g_proto_msgTypes[3]
+	mi := &file_apptest_user_svc_g_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -493,7 +531,7 @@ func (x *UserSelect) String() string {
 func (*UserSelect) ProtoMessage() {}
 
 func (x *UserSelect) ProtoReflect() protoreflect.Message {
-	mi := &file_apptest_user_proto_svc_g_proto_msgTypes[3]
+	mi := &file_apptest_user_svc_g_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -695,7 +733,7 @@ type UserGetRequest struct {
 
 func (x *UserGetRequest) Reset() {
 	*x = UserGetRequest{}
-	mi := &file_apptest_user_proto_svc_g_proto_msgTypes[4]
+	mi := &file_apptest_user_svc_g_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -707,7 +745,7 @@ func (x *UserGetRequest) String() string {
 func (*UserGetRequest) ProtoMessage() {}
 
 func (x *UserGetRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_apptest_user_proto_svc_g_proto_msgTypes[4]
+	mi := &file_apptest_user_svc_g_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -793,7 +831,7 @@ type UserPatchRequest struct {
 
 func (x *UserPatchRequest) Reset() {
 	*x = UserPatchRequest{}
-	mi := &file_apptest_user_proto_svc_g_proto_msgTypes[5]
+	mi := &file_apptest_user_svc_g_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -805,7 +843,7 @@ func (x *UserPatchRequest) String() string {
 func (*UserPatchRequest) ProtoMessage() {}
 
 func (x *UserPatchRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_apptest_user_proto_svc_g_proto_msgTypes[5]
+	mi := &file_apptest_user_svc_g_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -953,16 +991,16 @@ func (b0 UserPatchRequest_builder) Build() *UserPatchRequest {
 	return m0
 }
 
-var File_apptest_user_proto_svc_g_proto protoreflect.FileDescriptor
+var File_apptest_user_svc_g_proto protoreflect.FileDescriptor
 
-const file_apptest_user_proto_svc_g_proto_rawDesc = "" +
+const file_apptest_user_svc_g_proto_rawDesc = "" +
 	"\n" +
-	"\x1eapptest/user.proto_svc.g.proto\x12\aapptest\x1a apptest/tenant.proto_svc.g.proto\x1a\x12apptest/user.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbb\x02\n" +
+	"\x18apptest/user_svc.g.proto\x12\aapptest\x1a\x1aapptest/tenant_svc.g.proto\x1a\x12apptest/user.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbb\x02\n" +
 	"\x0eUserAddRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\fR\x02id\x12*\n" +
 	"\x06tenant\x18\x02 \x01(\v2\x12.apptest.TenantRefR\x06tenant\x12\x1b\n" +
-	"\x05alias\x18\x04 \x01(\tB\x05\xaa\x01\x02\b\x02R\x05alias\x12\x19\n" +
-	"\x04name\x18\x05 \x01(\tB\x05\xaa\x01\x02\b\x02R\x04name\x12;\n" +
+	"\x05alias\x18\x04 \x01(\tB\x05\xaa\x01\x02\b\x01R\x05alias\x12\x19\n" +
+	"\x04name\x18\x05 \x01(\tB\x05\xaa\x01\x02\b\x01R\x04name\x12;\n" +
 	"\x06labels\x18\a \x03(\v2#.apptest.UserAddRequest.LabelsEntryR\x06labels\x12=\n" +
 	"\fdate_created\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampR\vdateCreated\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +
@@ -1001,8 +1039,8 @@ const file_apptest_user_proto_svc_g_proto_rawDesc = "" +
 	"\x05Patch\x12\x19.apptest.UserPatchRequest\x1a\r.apptest.User\x121\n" +
 	"\x05Erase\x12\x10.apptest.UserRef\x1a\x16.google.protobuf.EmptyB<Z:github.com/protobuf-orm/protoc-gen-orm-go/internal/apptestb\beditionsp\xe8\a"
 
-var file_apptest_user_proto_svc_g_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
-var file_apptest_user_proto_svc_g_proto_goTypes = []any{
+var file_apptest_user_svc_g_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_apptest_user_svc_g_proto_goTypes = []any{
 	(*UserAddRequest)(nil),        // 0: apptest.UserAddRequest
 	(*UserRefByAlias)(nil),        // 1: apptest.UserRefByAlias
 	(*UserRef)(nil),               // 2: apptest.UserRef
@@ -1017,7 +1055,7 @@ var file_apptest_user_proto_svc_g_proto_goTypes = []any{
 	(*User)(nil),                  // 11: apptest.User
 	(*emptypb.Empty)(nil),         // 12: google.protobuf.Empty
 }
-var file_apptest_user_proto_svc_g_proto_depIdxs = []int32{
+var file_apptest_user_svc_g_proto_depIdxs = []int32{
 	8,  // 0: apptest.UserAddRequest.tenant:type_name -> apptest.TenantRef
 	6,  // 1: apptest.UserAddRequest.labels:type_name -> apptest.UserAddRequest.LabelsEntry
 	9,  // 2: apptest.UserAddRequest.date_created:type_name -> google.protobuf.Timestamp
@@ -1044,14 +1082,14 @@ var file_apptest_user_proto_svc_g_proto_depIdxs = []int32{
 	0,  // [0:11] is the sub-list for field type_name
 }
 
-func init() { file_apptest_user_proto_svc_g_proto_init() }
-func file_apptest_user_proto_svc_g_proto_init() {
-	if File_apptest_user_proto_svc_g_proto != nil {
+func init() { file_apptest_user_svc_g_proto_init() }
+func file_apptest_user_svc_g_proto_init() {
+	if File_apptest_user_svc_g_proto != nil {
 		return
 	}
-	file_apptest_tenant_proto_svc_g_proto_init()
+	file_apptest_tenant_svc_g_proto_init()
 	file_apptest_user_proto_init()
-	file_apptest_user_proto_svc_g_proto_msgTypes[2].OneofWrappers = []any{
+	file_apptest_user_svc_g_proto_msgTypes[2].OneofWrappers = []any{
 		(*userRef_Id)(nil),
 		(*userRef_Alias)(nil),
 	}
@@ -1059,17 +1097,17 @@ func file_apptest_user_proto_svc_g_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_apptest_user_proto_svc_g_proto_rawDesc), len(file_apptest_user_proto_svc_g_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_apptest_user_svc_g_proto_rawDesc), len(file_apptest_user_svc_g_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_apptest_user_proto_svc_g_proto_goTypes,
-		DependencyIndexes: file_apptest_user_proto_svc_g_proto_depIdxs,
-		MessageInfos:      file_apptest_user_proto_svc_g_proto_msgTypes,
+		GoTypes:           file_apptest_user_svc_g_proto_goTypes,
+		DependencyIndexes: file_apptest_user_svc_g_proto_depIdxs,
+		MessageInfos:      file_apptest_user_svc_g_proto_msgTypes,
 	}.Build()
-	File_apptest_user_proto_svc_g_proto = out.File
-	file_apptest_user_proto_svc_g_proto_goTypes = nil
-	file_apptest_user_proto_svc_g_proto_depIdxs = nil
+	File_apptest_user_svc_g_proto = out.File
+	file_apptest_user_svc_g_proto_goTypes = nil
+	file_apptest_user_svc_g_proto_depIdxs = nil
 }
