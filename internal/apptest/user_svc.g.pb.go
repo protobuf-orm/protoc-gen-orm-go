@@ -114,7 +114,6 @@ func (x *UserAddRequest) SetId(v []byte) {
 		v = []byte{}
 	}
 	x.xxx_hidden_Id = v
-	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 0, 6)
 }
 
 func (x *UserAddRequest) SetTenant(v *TenantRef) {
@@ -137,13 +136,6 @@ func (x *UserAddRequest) SetLabels(v map[string]string) {
 
 func (x *UserAddRequest) SetDateCreated(v *timestamppb.Timestamp) {
 	x.xxx_hidden_DateCreated = v
-}
-
-func (x *UserAddRequest) HasId() bool {
-	if x == nil {
-		return false
-	}
-	return protoimpl.X.Present(&(x.XXX_presence[0]), 0)
 }
 
 func (x *UserAddRequest) HasTenant() bool {
@@ -172,11 +164,6 @@ func (x *UserAddRequest) HasDateCreated() bool {
 		return false
 	}
 	return x.xxx_hidden_DateCreated != nil
-}
-
-func (x *UserAddRequest) ClearId() {
-	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 0)
-	x.xxx_hidden_Id = nil
 }
 
 func (x *UserAddRequest) ClearTenant() {
@@ -212,10 +199,7 @@ func (b0 UserAddRequest_builder) Build() *UserAddRequest {
 	m0 := &UserAddRequest{}
 	b, x := &b0, m0
 	_, _ = b, x
-	if b.Id != nil {
-		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 0, 6)
-		x.xxx_hidden_Id = b.Id
-	}
+	x.xxx_hidden_Id = b.Id
 	x.xxx_hidden_Tenant = b.Tenant
 	if b.Alias != nil {
 		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 2, 6)
@@ -995,12 +979,12 @@ var File_apptest_user_svc_g_proto protoreflect.FileDescriptor
 
 const file_apptest_user_svc_g_proto_rawDesc = "" +
 	"\n" +
-	"\x18apptest/user_svc.g.proto\x12\aapptest\x1a\x1aapptest/tenant_svc.g.proto\x1a\x12apptest/user.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbb\x02\n" +
-	"\x0eUserAddRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\fR\x02id\x12*\n" +
-	"\x06tenant\x18\x02 \x01(\v2\x12.apptest.TenantRefR\x06tenant\x12\x1b\n" +
-	"\x05alias\x18\x04 \x01(\tB\x05\xaa\x01\x02\b\x01R\x05alias\x12\x19\n" +
-	"\x04name\x18\x05 \x01(\tB\x05\xaa\x01\x02\b\x01R\x04name\x12;\n" +
+	"\x18apptest/user_svc.g.proto\x12\aapptest\x1a\x1aapptest/tenant_svc.g.proto\x1a\x12apptest/user.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb4\x02\n" +
+	"\x0eUserAddRequest\x12\x15\n" +
+	"\x02id\x18\x01 \x01(\fB\x05\xaa\x01\x02\b\x02R\x02id\x12*\n" +
+	"\x06tenant\x18\x02 \x01(\v2\x12.apptest.TenantRefR\x06tenant\x12\x14\n" +
+	"\x05alias\x18\x04 \x01(\tR\x05alias\x12\x12\n" +
+	"\x04name\x18\x05 \x01(\tR\x04name\x12;\n" +
 	"\x06labels\x18\a \x03(\v2#.apptest.UserAddRequest.LabelsEntryR\x06labels\x12=\n" +
 	"\fdate_created\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampR\vdateCreated\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +

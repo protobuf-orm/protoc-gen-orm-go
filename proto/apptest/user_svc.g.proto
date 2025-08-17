@@ -24,14 +24,12 @@ service UserService {
 }
 
 message UserAddRequest {
-	bytes id = 1;
+	bytes id = 1 [
+		features.field_presence = IMPLICIT
+	];
 	TenantRef tenant = 2;
-	string alias = 4 [
-		features.field_presence = EXPLICIT
-	];
-	string name = 5 [
-		features.field_presence = EXPLICIT
-	];
+	string alias = 4;
+	string name = 5;
 	map<string,string> labels = 7;
 	google.protobuf.Timestamp date_created = 15;
 }

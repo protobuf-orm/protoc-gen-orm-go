@@ -16,7 +16,7 @@ message User {
       key: true
     }
   ];
-  Tenant tenant = 2;
+  Tenant tenant = 2 [(orm.edge) = {}];
   string alias = 4 [
     features.field_presence = IMPLICIT,
     (orm.field) = {default: ""}

@@ -26,6 +26,10 @@ func New(opts ...Option) (*App, error) {
 
 func (a *App) Run(ctx context.Context, p *protogen.Plugin, g *graph.Graph) error {
 	gf, f := a.newGeneratedFile(p, g)
+	if gf == nil {
+		// No entity found.
+		return nil
+	}
 
 	vs := make([]graph.Entity, 0, len(g.Entities))
 	for _, f := range p.Files {
@@ -65,6 +69,9 @@ L:
 			f = f_
 			break L
 		}
+	}
+	if f == nil {
+		return nil, nil
 	}
 
 	dir, _ := filepath.Split(f.GeneratedFilenamePrefix)

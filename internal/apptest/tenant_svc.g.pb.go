@@ -773,11 +773,11 @@ var File_apptest_tenant_svc_g_proto protoreflect.FileDescriptor
 
 const file_apptest_tenant_svc_g_proto_rawDesc = "" +
 	"\n" +
-	"\x1aapptest/tenant_svc.g.proto\x12\aapptest\x1a\x14apptest/tenant.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x93\x02\n" +
+	"\x1aapptest/tenant_svc.g.proto\x12\aapptest\x1a\x14apptest/tenant.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x85\x02\n" +
 	"\x10TenantAddRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\fR\x02id\x12\x1b\n" +
-	"\x05alias\x18\x04 \x01(\tB\x05\xaa\x01\x02\b\x01R\x05alias\x12\x19\n" +
-	"\x04name\x18\x05 \x01(\tB\x05\xaa\x01\x02\b\x01R\x04name\x12=\n" +
+	"\x02id\x18\x01 \x01(\fR\x02id\x12\x14\n" +
+	"\x05alias\x18\x04 \x01(\tR\x05alias\x12\x12\n" +
+	"\x04name\x18\x05 \x01(\tR\x04name\x12=\n" +
 	"\x06labels\x18\a \x03(\v2%.apptest.TenantAddRequest.LabelsEntryR\x06labels\x12=\n" +
 	"\fdate_created\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampR\vdateCreated\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +
