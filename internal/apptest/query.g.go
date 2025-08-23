@@ -7,7 +7,18 @@ import (
 )
 
 func (x *Tenant) Pick() *TenantRef {
-	return TenantById(x.GetId())
+	if v := x.GetId(); len(v) > 0 {
+		return TenantById(v)
+	}
+
+	return nil
+}
+
+func (x *Tenant) PickUp() *TenantGetRequest {
+	if p := x.Pick(); p != nil {
+		return TenantGetRequest_builder{Ref: p}.Build()
+	}
+	return nil
 }
 
 func (x *TenantRef) Picks(v *Tenant) bool {
@@ -25,8 +36,30 @@ func TenantById(v []byte) *TenantRef {
 	return x
 }
 
+func TenantGetById(v []byte) *TenantGetRequest {
+	return TenantGetRequest_builder{Ref: TenantById(v)}.Build()
+}
+
 func (x *User) Pick() *UserRef {
-	return UserById(x.GetId())
+	if v := x.GetId(); len(v) > 0 {
+		return UserById(v)
+	}
+	{
+		v1 := x.GetAlias()
+		v2 := x.GetTenant()
+		if len(v1) > 0 && v2 != nil {
+			return UserByAlias(v1, v2.Pick())
+		}
+	}
+
+	return nil
+}
+
+func (x *User) PickUp() *UserGetRequest {
+	if p := x.Pick(); p != nil {
+		return UserGetRequest_builder{Ref: p}.Build()
+	}
+	return nil
 }
 
 func (x *UserRef) Picks(v *User) bool {
@@ -42,15 +75,23 @@ func (x *UserRef) Picks(v *User) bool {
 	}
 }
 
-func UserByAlias(alias string, tenant *TenantRef) *UserRefByAlias {
-	x := &UserRefByAlias{}
-	x.SetAlias(alias)
-	x.SetTenant(tenant)
-	return x
-}
-
 func UserById(v []byte) *UserRef {
 	x := &UserRef{}
 	x.SetId(v)
 	return x
+}
+
+func UserGetById(v []byte) *UserGetRequest {
+	return UserGetRequest_builder{Ref: UserById(v)}.Build()
+}
+
+func UserByAlias(alias string, tenant *TenantRef) *UserRef {
+	x := &UserRefByAlias{}
+	x.SetAlias(alias)
+	x.SetTenant(tenant)
+	return UserRef_builder{Alias: x}.Build()
+}
+
+func UserGetByAlias(alias string, tenant *TenantRef) *UserGetRequest {
+	return UserGetRequest_builder{Ref: UserByAlias(alias, tenant)}.Build()
 }

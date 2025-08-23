@@ -46,8 +46,6 @@ func (a *App) Run(ctx context.Context, p *protogen.Plugin, g *graph.Graph) error
 				continue
 			}
 
-			w.imports[string(entity.FullName())] = f.GoImportPath
-
 			rpcs := entity.Rpcs()
 			need_work := rpcs.HasGet() || rpcs.HasPatch() || rpcs.HasErase()
 			if !need_work {

@@ -1,88 +1,156 @@
 package app
 
 import (
+	"fmt"
 	"slices"
+	"strings"
 
-	"github.com/ettle/strcase"
 	"github.com/protobuf-orm/protobuf-orm/graph"
 	"github.com/protobuf-orm/protobuf-orm/ormpb"
+	"github.com/protobuf-orm/protoc-gen-orm-go/internal/strs"
 	"google.golang.org/protobuf/compiler/protogen"
 )
 
 func (w *fileWork) xRcvPick() {
-	n_entity := string(w.entity.FullName().Name())
-	w.P("func (x ", "*"+n_entity, ") Pick() ", "*"+n_entity+"Ref", "{")
-	w.P("	return ", w.xFnRefByField(w.entity.Key()), "(x.Get", strcase.ToPascal(string(w.entity.Key().FullName().Name())), "())")
+	name_x := w.entity.Name()
+
+	w.P("func (x ", "*"+name_x, ") Pick() ", "*"+name_x+"Ref", " {")
+	for p := range w.entity.Keys() {
+		name_p := strs.GoCamelCase(p.Name())
+		u := "x.Get" + name_p + "()"
+
+		switch p := p.(type) {
+		case (graph.Field):
+			c := ""
+			switch p.Type().Decay() {
+			case ormpb.Type_TYPE_MESSAGE:
+				c = "v != nil"
+			case ormpb.Type_TYPE_BYTES, ormpb.Type_TYPE_STRING:
+				c = "len(v) > 0"
+			case ormpb.Type_TYPE_FLOAT, ormpb.Type_TYPE_INT, ormpb.Type_TYPE_UINT:
+				c = "v != 0"
+			}
+			w.P("	if v := ", u, "; ", c, " {")
+			w.P("		return ", w.xFnRefByField(p), "(v)")
+			w.P("	}")
+
+		case (graph.Edge):
+			panic("pick for edge not implemented")
+
+		case (graph.Index):
+			w.P("	{")
+			i := 0
+			for p := range p.Props() {
+				i++
+				v := fmt.Sprintf("v%d", i)
+				w.P("		", v, " := ", "x.Get"+strs.GoCamelCase(p.Name()), "()")
+			}
+
+			i = 0
+			cs := []string{}
+			vs := []string{}
+			for p := range p.Props() {
+				i++
+				c := ""
+				v := fmt.Sprintf("v%d", i)
+
+				switch p.Type().Decay() {
+				case ormpb.Type_TYPE_MESSAGE:
+					c = fmt.Sprintf("%s != nil", v)
+				case ormpb.Type_TYPE_BYTES, ormpb.Type_TYPE_STRING:
+					c = fmt.Sprintf("len(%s) > 0", v)
+				case ormpb.Type_TYPE_FLOAT, ormpb.Type_TYPE_INT, ormpb.Type_TYPE_UINT:
+					c = fmt.Sprintf("%s != 0", v)
+				}
+
+				switch p.(type) {
+				case (graph.Field):
+				case (graph.Edge):
+					v = v + ".Pick()"
+				default:
+					panic("unknown type of index prop")
+				}
+				cs = append(cs, c)
+				vs = append(vs, v)
+			}
+			w.P("		if ", strings.Join(cs, " && "), " {")
+			w.P("			return ", name_x+"By"+name_p, "(", strings.Join(vs, ", "), ")")
+			w.P("		}")
+			w.P("	}")
+
+		default:
+			panic("unknown type of graph element")
+		}
+	}
+	w.P("")
+	w.P("	return nil")
 	w.P("}")
 	w.P("")
 }
 
-// func (x *AuditGetRequest) Picks(v *Audit) bool {
-// 	switch x.WhichKey() {
-// 	case AuditGetRequest_Id_case:
-// 		return bytes.Equal(x.GetId(), v.GetId())
+func (w *fileWork) xRcvPickUp() {
+	name_x := w.entity.Name()
+	x_get := name_x + "GetRequest"
 
-// 	default:
-// 		return false
-// 	}
-// }
+	w.P("func (x ", "*"+name_x, ") PickUp() ", "*"+x_get, "{")
+	w.P("	if p := x.Pick(); p != nil {")
+	w.P("		return ", x_get+"_builder", "{Ref: p}.Build()")
+	w.P("	}")
+	w.P("	return nil")
+	w.P("}")
+	w.P("")
+}
 
 func (w *fileWork) xRcvPicks() {
-	n_entity := string(w.entity.FullName().Name())
-	w.P("func (x ", "*"+n_entity+"Ref) Picks(v ", "*"+n_entity, ") bool {")
-	w.P("	switch x.WhichKey() {")
-	for p := range w.entity.Props() {
-		if !p.IsUnique() {
-			continue
-		}
+	name_x := w.entity.Name()
+	x_ref := name_x + "Ref"
 
-		w.P("	case ", n_entity, "Ref_", strcase.ToPascal(string(p.FullName().Name())), "_case:")
-		w.Pf("		return ")
-		switch p_ := p.(type) {
+	w.P("func (x ", "*"+x_ref, ") Picks(v ", "*"+name_x, ") bool {")
+	w.P("	switch x.WhichKey() {")
+	for p := range w.entity.Keys() {
+		name_p := strs.GoCamelCase(p.Name())
+		u := "Get" + name_p + "()"
+
+		w.P("	case ", x_ref+"_"+name_p+"_case", ":")
+		switch p := p.(type) {
 		case (graph.Field):
-			g := "Get" + strcase.ToPascal(string(p_.FullName().Name())) + "()"
-			t := p_.Type()
-			switch t {
-			case
-				ormpb.Type_TYPE_BYTES,
-				ormpb.Type_TYPE_UUID:
-				w.P(protogen.GoImportPath("bytes").Ident("Equal"), "(x.", g, ", v.", g, ")")
+			a := "x." + u
+			b := "v." + u
+			switch p.Type().Decay() {
+			case ormpb.Type_TYPE_BYTES:
+				w.P("		return ", protogen.GoImportPath("bytes").Ident("Equal"), "(", a, ", ", b, ")")
 			default:
-				w.P("x.", g, " == ", "v.", g)
+				w.P("		return ", a, " == ", b)
 			}
 
 		case (graph.Edge):
-			panic("picks for edge not implemented")
+			panic("pick for edge not implemented")
+
+		case (graph.Index):
+			w.P("		x := x." + u)
+			w.Pf("		return ")
+
+			ps := slices.Collect(p.Props())
+			for i, p := range ps {
+				name_p := strs.GoCamelCase(p.Name())
+				u := "Get" + name_p + "()"
+				switch p.(type) {
+				case (graph.Field):
+					w.Pf("(x.%s == v.%s)", u, u)
+				case (graph.Edge):
+					w.Pf("(x.%s.Picks(v.%s))", u, u)
+				default:
+					panic("unknown type of graph prop")
+				}
+				if i+1 < len(ps) {
+					w.P(" &&")
+				} else {
+					w.P("")
+				}
+			}
+
 		default:
-			panic("unknown type of graph prop")
-		}
-	}
-	for p := range w.entity.Indexes() {
-		if !p.IsUnique() {
-			continue
-		}
-
-		np := strcase.ToPascal(p.Name())
-		w.P("	case ", n_entity, "Ref_", np, "_case:")
-		w.P("		x := x.Get", np, "()")
-		w.Pf("		return ")
-
-		ps := slices.Collect(p.Props())
-		for i, p := range ps {
-			g := "Get" + strcase.ToPascal(string(p.FullName().Name())) + "()"
-			switch p.(type) {
-			case (graph.Field):
-				w.Pf("(x.%s == v.%s)", g, g)
-			case (graph.Edge):
-				w.Pf("(x.%s.Picks(v.%s))", g, g)
-			default:
-				panic("unknown type of graph prop")
-			}
-			if i+1 < len(ps) {
-				w.P(" &&")
-			} else {
-				w.P("")
-			}
+			panic("unknown type of graph element")
 		}
 	}
 	w.P("	default:")

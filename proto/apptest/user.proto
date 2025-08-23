@@ -6,25 +6,17 @@ import "apptest/tenant.proto";
 import "google/protobuf/timestamp.proto";
 import "orm.proto";
 
+option features.field_presence = IMPLICIT;
 option go_package = "github.com/protobuf-orm/protoc-gen-orm-go/internal/apptest";
 
 message User {
-  bytes id = 1 [
-    features.field_presence = IMPLICIT,
-    (orm.field) = {
-      type: TYPE_UUID
-      key: true
-    }
-  ];
+  bytes id = 1 [(orm.field) = {
+    type: TYPE_UUID
+    key: true
+  }];
   Tenant tenant = 2 [(orm.edge) = {}];
-  string alias = 4 [
-    features.field_presence = IMPLICIT,
-    (orm.field) = {default: ""}
-  ];
-  string name = 5 [
-    features.field_presence = IMPLICIT,
-    (orm.field) = {default: ""}
-  ];
+  string alias = 4 [(orm.field) = {default: ""}];
+  string name = 5 [(orm.field) = {default: ""}];
   map<string, string> labels = 7;
 
   google.protobuf.Timestamp date_created = 15 [(orm.field) = {

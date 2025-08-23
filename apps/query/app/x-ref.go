@@ -1,82 +1,101 @@
 package app
 
 import (
-	"github.com/ettle/strcase"
+	"fmt"
+	"strings"
+
 	"github.com/protobuf-orm/protobuf-orm/graph"
+	"github.com/protobuf-orm/protoc-gen-orm-go/internal/strs"
 	"google.golang.org/protobuf/compiler/protogen"
 )
 
-func (w *fileWork) xFnRefByProp(p graph.Prop) protogen.GoIdent {
-	switch p_ := p.(type) {
-	case (graph.Field):
-		return w.xFnRefByField(p_)
-	case (graph.Edge):
-		panic("ref for edge not implemented")
-	default:
-		panic("unknown type of graph prop")
-	}
-}
-
 func (w *fileWork) xFnRefByField(p graph.Field) protogen.GoIdent {
-	n_entity := string(w.entity.FullName().Name())
-	n_field := string(p.FullName().Name())
-	name := n_entity + "By" + strcase.ToPascal(n_field)
+	name_x := w.entity.Name()
+	name_p := strs.GoCamelCase(p.Name())
+	name := name_x + "By" + name_p
 
 	return w.define(name, func() {
-		t := w.GoType(p)
-		n_ref := n_entity + "Ref"
+		x_ref := name_x + "Ref"
 
-		w.P("func ", name, " (v ", t, ") ", "*"+n_ref, " {")
-		w.P("	x := ", "&"+n_ref+"{}")
-		w.P("	x.Set" + strcase.ToPascal(n_field) + "(v)")
+		w.P("func ", name, " (v ", w.useGoType(p.Descriptor(), p.Type().Decay()), ") ", "*"+x_ref, " {")
+		w.P("	x := &", x_ref, "{}")
+		w.P("	x.Set" + name_p + "(v)")
 		w.P("	return x")
 		w.P("}")
 		w.P("")
 	})
 }
 
+func (w *fileWork) xFnGetByField(p graph.Field) protogen.GoIdent {
+	name_x := w.entity.Name()
+	name_p := strs.GoCamelCase(p.Name())
+	name := name_x + "GetBy" + name_p
+
+	return w.define(name, func() {
+		x_get := name_x + "GetRequest"
+
+		w.P("func ", name, "(v ", w.useGoType(p.Descriptor(), p.Type().Decay()), ") ", "*"+x_get, " {")
+		w.P("	return ", x_get+"_builder", "{Ref: ", w.xFnRefByField(p).GoName, "(v)}.Build()")
+		w.P("}")
+		w.P("")
+	})
+}
+
 func (w *fileWork) xFnRefByIndex(p graph.Index) protogen.GoIdent {
-	n_entity := string(w.entity.FullName().Name())
-	n_field := strcase.ToPascal(string(p.Name()))
-	name := n_entity + "By" + n_field
+	name_x := w.entity.Name()
+	name_p := strs.GoCamelCase(p.Name())
+	name := name_x + "By" + name_p
 
-	n_ref := n_entity + "RefBy" + n_field
+	return w.define(name, func() {
+		x_ref := name_x + "Ref"
 
-	w.Pf("func %s (", name)
-	for p := range p.Props() {
-		t := ""
-		switch p_ := p.(type) {
-		case graph.Field:
-			t = w.GoType(p_)
-		case graph.Edge:
-			target := p_.Target()
-			pkg, ok := w.root.imports[string(target.FullName())]
-			if !ok {
-				panic("import path for the entity must be exist")
+		args := []string{}
+		for p := range p.Props() {
+			t := w.useGoType(p.Descriptor(), p.Type().Decay())
+			if _, ok := p.(graph.Edge); ok {
+				t = "*" + t + "Ref"
 			}
 
-			n_target := string(target.FullName().Name())
-			t = "*" + w.QualifiedGoIdent(pkg.Ident(n_target+"Ref"))
-		default:
-			panic("unknown type of graph prop")
+			name_a := p.Name()
+			args = append(args, fmt.Sprintf("%s %s", name_a, t))
 		}
 
-		w.Pf("%s %s,", p.FullName().Name(), t)
-	}
-	w.P(") *"+n_ref, " {")
-	w.P("	x := ", "&"+n_ref+"{}")
-	for p := range p.Props() {
-		n_field := string(p.FullName().Name())
-		w.P("	x.Set", strcase.ToPascal(n_field), "(", n_field, ")")
-	}
-	w.P("	return x")
-	w.P("}")
-	w.P("")
+		w.P("func ", name, "(", strings.Join(args, ", "), ") ", "*"+x_ref, " {")
+		w.P("	x := &", x_ref+"By"+name_p, "{}")
+		for p := range p.Props() {
+			name_a := p.Name()
+			w.P("	x.Set", strs.GoCamelCase(p.Name()), "(", name_a, ")")
+		}
+		w.P("	return ", x_ref+"_builder", "{", name_p, ": x}.Build()")
+		w.P("}")
+		w.P("")
+	})
+}
 
-	pkg, ok := w.root.imports[string(w.entity.FullName())]
-	if !ok {
-		panic("import path for the entity must be exist")
-	}
+func (w *fileWork) xFnGetByIndex(p graph.Index) protogen.GoIdent {
+	name_x := w.entity.Name()
+	name_p := strs.GoCamelCase(p.Name())
+	name := name_x + "GetBy" + name_p
 
-	return pkg.Ident(name)
+	return w.define(name, func() {
+		x_get := name_x + "GetRequest"
+
+		args := []string{}
+		arg_names := []string{}
+		for p := range p.Props() {
+			t := w.useGoTypeOf(p)
+			if _, ok := p.(graph.Edge); ok {
+				t = "*" + t + "Ref"
+			}
+
+			name_a := p.Name()
+			args = append(args, fmt.Sprintf("%s %s", name_a, t))
+			arg_names = append(arg_names, name_a)
+		}
+
+		w.P("func ", name, "(", strings.Join(args, ", "), ") ", "*"+x_get, " {")
+		w.P("	return ", x_get+"_builder", "{Ref: ", w.xFnRefByIndex(p).GoName, "(", strings.Join(arg_names, ", "), ")}.Build()")
+		w.P("}")
+		w.P("")
+	})
 }

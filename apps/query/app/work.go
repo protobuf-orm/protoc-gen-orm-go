@@ -5,20 +5,19 @@ import (
 	"fmt"
 
 	"github.com/protobuf-orm/protobuf-orm/graph"
+	"github.com/protobuf-orm/protobuf-orm/ormpb"
 	"google.golang.org/protobuf/compiler/protogen"
+	"google.golang.org/protobuf/reflect/protoreflect"
 )
 
 type work struct {
-	// Qualified name of identifier
+	// Qualified name of the identifier defined by this app.
 	idents map[protogen.GoIdent]bool
-	// Full name of entity -> Go import path
-	imports map[string]protogen.GoImportPath
 }
 
 func newWork() *work {
 	return &work{
-		idents:  map[protogen.GoIdent]bool{},
-		imports: map[string]protogen.GoImportPath{},
+		idents: map[protogen.GoIdent]bool{},
 	}
 }
 
@@ -33,22 +32,15 @@ type fileWork struct {
 }
 
 func (w *work) newFileWork(file *protogen.GeneratedFile, entity graph.Entity) *fileWork {
-	pkg, ok := w.imports[string(entity.FullName())]
-	if !ok {
-		panic("import path for the entity must be exist")
-	}
-
-	fw := &fileWork{
+	return &fileWork{
 		GeneratedFile: file,
 
 		root:   w,
 		entity: entity,
-		pkg:    pkg,
+		pkg:    graph.MustGetGoImportPath(entity.Descriptor().ParentFile()),
 
 		deferred: []func(){},
 	}
-
-	return fw
 }
 
 func (w *fileWork) Pf(format string, a ...any) {
@@ -66,28 +58,39 @@ func (w *fileWork) define(name string, f func()) protogen.GoIdent {
 	return ident
 }
 
+func (w *fileWork) useGoTypeOf(p graph.Prop) string {
+	return graph.GoTypeOf(p, w.QualifiedGoIdent)
+}
+
+func (w *fileWork) useGoType(d protoreflect.FieldDescriptor, t ormpb.Type) string {
+	return graph.GoType(d, t, w.QualifiedGoIdent)
+}
+
 func (w *work) run(ctx context.Context, gf *protogen.GeneratedFile, entity graph.Entity) error {
 	fw := w.newFileWork(gf, entity)
 	fw.xRcvPick()
+	fw.xRcvPickUp()
 	fw.xRcvPicks()
-	for p := range entity.Props() {
-		if !p.IsUnique() {
-			continue
-		}
+	for p := range entity.Keys() {
+		switch p := p.(type) {
+		case graph.Field:
+			fw.xFnRefByField(p)
+			fw.xFnGetByField(p)
 
-		fw.xFnRefByProp(p)
-	}
-	for p := range entity.Indexes() {
-		if !p.IsUnique() {
-			continue
-		}
+		case graph.Edge:
+			panic("ref for edge not implemented")
 
-		fw.xFnRefByIndex(p)
+		case graph.Index:
+			fw.xFnRefByIndex(p)
+			fw.xFnGetByIndex(p)
+
+		default:
+			panic("unknown type of graph prop")
+		}
 	}
 
 	for _, f := range fw.deferred {
 		f()
 	}
-
 	return nil
 }
