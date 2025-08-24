@@ -71,6 +71,7 @@ func (w *work) run(ctx context.Context, gf *protogen.GeneratedFile, entity graph
 	fw.xRcvPick()
 	fw.xRcvPickUp()
 	fw.xRcvPicks()
+	fw.xRcvJson()
 	for p := range entity.Keys() {
 		switch p := p.(type) {
 		case graph.Field:

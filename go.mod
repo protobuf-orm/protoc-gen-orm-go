@@ -3,7 +3,6 @@ module github.com/protobuf-orm/protoc-gen-orm-go
 go 1.24.5
 
 require (
-	github.com/ettle/strcase v0.2.0
 	github.com/protobuf-orm/protobuf-orm v0.0.0-20250823135318-4d3deece5f2e
 	google.golang.org/grpc v1.74.2
 	google.golang.org/protobuf v1.36.6
