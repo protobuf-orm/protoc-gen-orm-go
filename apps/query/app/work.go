@@ -68,8 +68,9 @@ func (w *fileWork) useGoType(d protoreflect.FieldDescriptor, t ormpb.Type) strin
 
 func (w *work) run(ctx context.Context, gf *protogen.GeneratedFile, entity graph.Entity) error {
 	fw := w.newFileWork(gf, entity)
+	fw.xRefRcvPick()
+	fw.xRcvRef()
 	fw.xRcvPick()
-	fw.xRcvPickUp()
 	fw.xRcvPicks()
 	fw.xRcvWithSelect()
 	fw.xRcvJson()

@@ -11,10 +11,20 @@ import (
 	"google.golang.org/protobuf/compiler/protogen"
 )
 
-func (w *fileWork) xRcvPick() {
+func (w *fileWork) xRefRcvPick() {
+	name_x := w.entity.Name()
+	x_get := name_x + "GetRequest"
+
+	w.P("func (x ", "*"+name_x+"Ref", ") Pick() ", "*"+x_get, "{")
+	w.P("	return ", x_get+"_builder", "{Ref: x}.Build()")
+	w.P("}")
+	w.P("")
+}
+
+func (w *fileWork) xRcvRef() {
 	name_x := w.entity.Name()
 
-	w.P("func (x ", "*"+name_x, ") Pick() ", "*"+name_x+"Ref", " {")
+	w.P("func (x ", "*"+name_x, ") Ref() ", "*"+name_x+"Ref", " {")
 	for p := range w.entity.Keys() {
 		name_p := strs.GoCamelCase(p.Name())
 		u := "x.Get" + name_p + "()"
@@ -66,7 +76,7 @@ func (w *fileWork) xRcvPick() {
 				switch p.(type) {
 				case (graph.Field):
 				case (graph.Edge):
-					v = v + ".Pick()"
+					v = v + ".Ref()"
 				default:
 					panic("unknown type of index prop")
 				}
@@ -88,15 +98,12 @@ func (w *fileWork) xRcvPick() {
 	w.P("")
 }
 
-func (w *fileWork) xRcvPickUp() {
+func (w *fileWork) xRcvPick() {
 	name_x := w.entity.Name()
 	x_get := name_x + "GetRequest"
 
-	w.P("func (x ", "*"+name_x, ") PickUp() ", "*"+x_get, "{")
-	w.P("	if p := x.Pick(); p != nil {")
-	w.P("		return ", x_get+"_builder", "{Ref: p}.Build()")
-	w.P("	}")
-	w.P("	return nil")
+	w.P("func (x ", "*"+name_x, ") Pick() ", "*"+x_get, "{")
+	w.P("	return x.Ref().Pick()")
 	w.P("}")
 	w.P("")
 }
