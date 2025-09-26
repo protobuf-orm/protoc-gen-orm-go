@@ -51,6 +51,7 @@ func (a *App) Run(ctx context.Context, p *protogen.Plugin, g *graph.Graph) error
 	}
 
 	w.xServerInterface()
+	w.xUnimplementedServerStruct()
 	w.xStaticServerStruct()
 	w.xClient()
 

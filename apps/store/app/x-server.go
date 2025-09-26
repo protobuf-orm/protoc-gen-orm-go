@@ -18,6 +18,20 @@ func (w *Work) xServerInterface() {
 	w.P("")
 }
 
+func (w *Work) xUnimplementedServerStruct() {
+	w.P("type UnimplementedServer struct {")
+	for _, v := range w.Entities {
+		w.P("	", v.Name(), "Server ", w.Package.Ident(v.Name()+"ServiceServer"))
+	}
+	w.P("}")
+	w.P("")
+	for _, v := range w.Entities {
+		w.P("func (UnimplementedServer) ", v.Name(), "() ", w.Package.Ident(v.Name()+"ServiceServer"), "{ return Unimplemented", v.Name(), "ServiceServer{} }")
+	}
+
+	w.P("")
+}
+
 func (w *Work) xStaticServerStruct() {
 	w.P("type StaticServer struct {")
 	for _, v := range w.Entities {

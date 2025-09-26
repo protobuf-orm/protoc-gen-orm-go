@@ -7,7 +7,11 @@ import (
 	protojson "google.golang.org/protobuf/encoding/protojson"
 )
 
-func (x *Tenant) Pick() *TenantRef {
+func (x *TenantRef) Pick() *TenantGetRequest {
+	return TenantGetRequest_builder{Ref: x}.Build()
+}
+
+func (x *Tenant) Ref() *TenantRef {
 	if v := x.GetId(); len(v) > 0 {
 		return TenantById(v)
 	}
@@ -15,11 +19,8 @@ func (x *Tenant) Pick() *TenantRef {
 	return nil
 }
 
-func (x *Tenant) PickUp() *TenantGetRequest {
-	if p := x.Pick(); p != nil {
-		return TenantGetRequest_builder{Ref: p}.Build()
-	}
-	return nil
+func (x *Tenant) Pick() *TenantGetRequest {
+	return x.Ref().Pick()
 }
 
 func (x *TenantRef) Picks(v *Tenant) bool {
@@ -29,6 +30,14 @@ func (x *TenantRef) Picks(v *Tenant) bool {
 	default:
 		return false
 	}
+}
+
+func (x *TenantGetRequest) WithSelect(f func(s *TenantSelect)) *TenantGetRequest {
+	if !x.HasSelect() {
+		x.SetSelect(&TenantSelect{})
+	}
+	f(x.GetSelect())
+	return x
 }
 
 func (x *Tenant) MarshalJSON() ([]byte, error) { return protojson.Marshal(x) }
@@ -44,7 +53,11 @@ func TenantGetById(v []byte) *TenantGetRequest {
 	return TenantGetRequest_builder{Ref: TenantById(v)}.Build()
 }
 
-func (x *User) Pick() *UserRef {
+func (x *UserRef) Pick() *UserGetRequest {
+	return UserGetRequest_builder{Ref: x}.Build()
+}
+
+func (x *User) Ref() *UserRef {
 	if v := x.GetId(); len(v) > 0 {
 		return UserById(v)
 	}
@@ -52,18 +65,15 @@ func (x *User) Pick() *UserRef {
 		v1 := x.GetAlias()
 		v2 := x.GetTenant()
 		if len(v1) > 0 && v2 != nil {
-			return UserByAlias(v1, v2.Pick())
+			return UserByAlias(v1, v2.Ref())
 		}
 	}
 
 	return nil
 }
 
-func (x *User) PickUp() *UserGetRequest {
-	if p := x.Pick(); p != nil {
-		return UserGetRequest_builder{Ref: p}.Build()
-	}
-	return nil
+func (x *User) Pick() *UserGetRequest {
+	return x.Ref().Pick()
 }
 
 func (x *UserRef) Picks(v *User) bool {
@@ -77,6 +87,14 @@ func (x *UserRef) Picks(v *User) bool {
 	default:
 		return false
 	}
+}
+
+func (x *UserGetRequest) WithSelect(f func(s *UserSelect)) *UserGetRequest {
+	if !x.HasSelect() {
+		x.SetSelect(&UserSelect{})
+	}
+	f(x.GetSelect())
+	return x
 }
 
 func (x *User) MarshalJSON() ([]byte, error) { return protojson.Marshal(x) }

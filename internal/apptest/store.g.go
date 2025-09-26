@@ -16,6 +16,14 @@ func RegisterServer(g *grpc.Server, s Server) {
 	RegisterUserServiceServer(g, s.User())
 }
 
+type UnimplementedServer struct {
+	TenantServer TenantServiceServer
+	UserServer   UserServiceServer
+}
+
+func (UnimplementedServer) Tenant() TenantServiceServer { return UnimplementedTenantServiceServer{} }
+func (UnimplementedServer) User() UserServiceServer     { return UnimplementedUserServiceServer{} }
+
 type StaticServer struct {
 	TenantServer TenantServiceServer
 	UserServer   UserServiceServer
