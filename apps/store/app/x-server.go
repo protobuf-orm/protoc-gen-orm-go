@@ -39,8 +39,12 @@ func (w *Work) xStaticServerStruct() {
 	}
 	w.P("}")
 	w.P("")
+	// A value receiver, like UnimplementedServer's, so that a StaticServer is a
+	// Server whether or not it is behind a pointer. [Find] matches on the
+	// dynamic type, so a stack holding one of the two cannot be asked for the
+	// other, and there is no reason for this one to be the awkward kind.
 	for _, v := range w.Entities {
-		w.P("func (s *StaticServer) ", v.Name(), "() ", w.Package.Ident(v.Name()+"ServiceServer"), "{ return s.", v.Name(), "Server }")
+		w.P("func (s StaticServer) ", v.Name(), "() ", w.Package.Ident(v.Name()+"ServiceServer"), "{ return s.", v.Name(), "Server }")
 	}
 
 	w.P("")

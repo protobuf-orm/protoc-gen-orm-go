@@ -3,9 +3,9 @@ module github.com/protobuf-orm/protoc-gen-orm-go
 go 1.24.5
 
 require (
-	github.com/protobuf-orm/protobuf-orm v0.0.0-20250823135318-4d3deece5f2e
+	github.com/protobuf-orm/protobuf-orm v0.0.0-20260627113410-c97ccf1e9419
 	google.golang.org/grpc v1.74.2
-	google.golang.org/protobuf v1.36.9
+	google.golang.org/protobuf v1.36.10
 )
 
 require (
