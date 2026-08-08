@@ -7,8 +7,19 @@ func (w *Work) xServerInterface() {
 	}
 	w.P("}")
 	w.P("")
+	// A ServiceRegistrar and not a *grpc.Server, which is a strict widening:
+	// every *grpc.Server is one, so nothing that called this before has to
+	// change. What it buys is the callers that are not a gRPC server at all --
+	// a server compiled into a page and speaking a datagram protocol to it, a
+	// test that registers into something of its own. The per-service
+	// Register<E>ServiceServer that protoc-gen-go-grpc emits already takes the
+	// interface; this was the one line that did not.
+	w.P("// RegisterServer registers every service of `s` with `g`.")
+	w.P("//")
+	w.P("// It takes a [grpc.ServiceRegistrar] rather than a *grpc.Server so that a")
+	w.P("// server which is not gRPC's own can be handed the same set of services.")
 	w.P("func RegisterServer(",
-		/* */ "g *", grpc.Ident("Server"), ", ",
+		/* */ "g ", grpc.Ident("ServiceRegistrar"), ", ",
 		/* */ "s Server",
 		") {")
 	for _, v := range w.Entities {
