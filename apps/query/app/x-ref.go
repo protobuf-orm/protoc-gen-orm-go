@@ -83,7 +83,13 @@ func (w *fileWork) xFnGetByIndex(p graph.Index) protogen.GoIdent {
 		args := []string{}
 		arg_names := []string{}
 		for p := range p.Props() {
-			t := w.useGoTypeOf(p)
+			// The same type the constructor this calls takes; see
+			// [fileWork.xFnRefByIndex]. `useGoTypeOf` answers with what the
+			// column is -- `uuid.UUID` for a uuid -- and the constructor takes
+			// what the setter takes, which is `[]byte`. The two disagreeing
+			// meant this function did not compile, which only an index holding
+			// a uuid could reach.
+			t := w.useGoType(p.Descriptor(), p.Type().Decay())
 			if _, ok := p.(graph.Edge); ok {
 				t = "*" + t + "Ref"
 			}

@@ -141,8 +141,19 @@ func (w *fileWork) xRcvPicks() {
 			for i, p := range ps {
 				name_p := strs.GoCamelCase(p.Name())
 				u := "Get" + name_p + "()"
-				switch p.(type) {
+				switch p := p.(type) {
 				case (graph.Field):
+					// The same split the single-field case above makes. A
+					// `bytes` column is a slice, and `==` on two of those does
+					// not compile -- which is only reachable once an index
+					// holds one, so it went unnoticed while every index was
+					// strings.
+					if p.Type().Decay() == ormpb.Type_TYPE_BYTES {
+						w.Pf("(%s(x.%s, v.%s))",
+							w.QualifiedGoIdent(protogen.GoImportPath("bytes").Ident("Equal")), u, u)
+						break
+					}
+
 					w.Pf("(x.%s == v.%s)", u, u)
 				case (graph.Edge):
 					w.Pf("(x.%s.Picks(v.%s))", u, u)

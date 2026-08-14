@@ -19,6 +19,11 @@ message User {
   string name = 5 [(orm.field) = {default: ""}];
   map<string, string> labels = 7;
 
+  // A `bytes` column, so that an index below can hold one. Every index in this
+  // app was strings until now, which is why two generators could emit code that
+  // does not compile for one and nobody noticed.
+  bytes realm = 8 [(orm.field) = {type: TYPE_UUID}];
+
   google.protobuf.Timestamp date_created = 15 [(orm.field) = {
     immutable: true
     default: ""
@@ -37,6 +42,24 @@ message User {
           {
             name: "tenant"
             number: 2
+          }
+        ]
+        unique: true
+      },
+      // An index holding a `bytes` column. It is here to be generated, not to
+      // mean anything: `Picks` compared two of these with `==`, which does not
+      // compile, and `GetByRealm` took a `uuid.UUID` while the constructor it
+      // called took a `[]byte`.
+      {
+        name: "realm"
+        refs: [
+          {
+            name: "realm"
+            number: 8
+          },
+          {
+            name: "alias"
+            number: 4
           }
         ]
         unique: true
