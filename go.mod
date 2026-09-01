@@ -1,11 +1,11 @@
 module github.com/protobuf-orm/protoc-gen-orm-go
 
-go 1.24.5
+go 1.27.0
 
 require (
-	github.com/protobuf-orm/protobuf-orm v0.0.0-20260627113410-c97ccf1e9419
+	github.com/protobuf-orm/protobuf-orm v0.0.0-20260901155106-6bf45a2a1e67
 	google.golang.org/grpc v1.74.2
-	google.golang.org/protobuf v1.36.10
+	google.golang.org/protobuf v1.36.11
 )
 
 require (
