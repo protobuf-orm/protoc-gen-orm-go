@@ -64,13 +64,6 @@ func (x *User) Ref() *UserRef {
 			return UserByAlias(v1, v2.Ref())
 		}
 	}
-	{
-		v1 := x.GetRealm()
-		v2 := x.GetAlias()
-		if len(v1) > 0 && len(v2) > 0 {
-			return UserByRealm(v1, v2)
-		}
-	}
 
 	return nil
 }
@@ -87,10 +80,6 @@ func (x *UserRef) Picks(v *User) bool {
 		x := x.GetAlias()
 		return (x.GetAlias() == v.GetAlias()) &&
 			(x.GetTenant().Picks(v.GetTenant()))
-	case UserRef_Realm_case:
-		x := x.GetRealm()
-		return (bytes.Equal(x.GetRealm(), v.GetRealm())) &&
-			(x.GetAlias() == v.GetAlias())
 	default:
 		return false
 	}
@@ -123,15 +112,4 @@ func UserByAlias(alias string, tenant *TenantRef) *UserRef {
 
 func UserGetByAlias(alias string, tenant *TenantRef) *UserGetRequest {
 	return UserGetRequest_builder{Ref: UserByAlias(alias, tenant)}.Build()
-}
-
-func UserByRealm(realm []byte, alias string) *UserRef {
-	x := &UserRefByRealm{}
-	x.SetRealm(realm)
-	x.SetAlias(alias)
-	return UserRef_builder{Realm: x}.Build()
-}
-
-func UserGetByRealm(realm []byte, alias string) *UserGetRequest {
-	return UserGetRequest_builder{Ref: UserByRealm(realm, alias)}.Build()
 }
