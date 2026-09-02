@@ -1,0 +1,45 @@
+# The generated code in `internal/apptest` **is** committed, and the thing this
+# repository is is the generator that writes it -- so the check worth having is
+# to generate and see whether anything moved.
+#
+# It did not exist, and the cost of that was concrete: `buf generate` invoked
+# protoc-gen-orm-service with `go run` for a module nothing required, so it
+# failed on every run and buf killed the other plugins with it. Nobody found
+# out, because nobody could: the committed output was months behind the
+# contracts it was generated from, and no test read it.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+      - uses: bufbuild/buf-action@v1
+        with:
+          setup_only: true
+
+      # Twice, and not by mistake. The first pass writes the service contracts
+      # (`*_svc.g.proto`) and the second generates Go from them: the plugins in
+      # one invocation all read the inputs as they were when it started, so a
+      # contract written by this run is only compiled by the next.
+      - run: buf generate
+      - run: buf generate
+
+      # A generated file that was not regenerated compiles perfectly and is
+      # wrong, which is the failure this repository exists to produce in other
+      # people's code and is no less true of its own.
+      - run: git diff --exit-code
+
+      - run: gofmt -l . | tee /dev/stderr | (! read)
+      - run: go build ./...
+      - run: go vet ./...
+      - run: go test ./... -count=1
