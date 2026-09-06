@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/protobuf-orm/protobuf-orm/graph"
+	"github.com/protobuf-orm/protobuf-orm/graph/gogen"
 	"github.com/protobuf-orm/protobuf-orm/ormpb"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/reflect/protoreflect"
@@ -37,7 +38,7 @@ func (w *work) newFileWork(file *protogen.GeneratedFile, entity graph.Entity) *f
 
 		root:   w,
 		entity: entity,
-		pkg:    graph.MustGetGoImportPath(entity.Descriptor().ParentFile()),
+		pkg:    gogen.MustGetGoImportPath(entity.Descriptor().ParentFile()),
 
 		deferred: []func(){},
 	}
@@ -59,11 +60,11 @@ func (w *fileWork) define(name string, f func()) protogen.GoIdent {
 }
 
 func (w *fileWork) useGoTypeOf(p graph.Prop) string {
-	return graph.GoTypeOf(p, w.QualifiedGoIdent)
+	return gogen.GoTypeOf(p, w.QualifiedGoIdent)
 }
 
 func (w *fileWork) useGoType(d protoreflect.FieldDescriptor, t ormpb.Type) string {
-	return graph.GoType(d, t, w.QualifiedGoIdent)
+	return gogen.GoType(d, t, w.QualifiedGoIdent)
 }
 
 func (w *work) run(ctx context.Context, gf *protogen.GeneratedFile, entity graph.Entity) error {

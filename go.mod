@@ -4,7 +4,7 @@ go 1.27.0
 
 require (
 	github.com/lesomnus/protobuf-patch v0.0.0-20260803175157-e1b7a0c2804f
-	github.com/protobuf-orm/protobuf-orm v0.0.0-20260901155106-6bf45a2a1e67
+	github.com/protobuf-orm/protobuf-orm v0.0.0-20260906212449-04c0cd58f10a
 	google.golang.org/grpc v1.74.2
 	google.golang.org/protobuf v1.36.11
 )
