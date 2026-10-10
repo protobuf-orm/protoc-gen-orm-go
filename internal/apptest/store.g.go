@@ -26,6 +26,7 @@ import (
 )
 
 type Server interface {
+	Shift() ShiftServiceServer
 	Tenant() TenantServiceServer
 	User() UserServiceServer
 }
@@ -35,43 +36,52 @@ type Server interface {
 // It takes a [grpc.ServiceRegistrar] rather than a *grpc.Server so that a
 // server which is not gRPC's own can be handed the same set of services.
 func RegisterServer(g grpc.ServiceRegistrar, s Server) {
+	RegisterShiftServiceServer(g, s.Shift())
 	RegisterTenantServiceServer(g, s.Tenant())
 	RegisterUserServiceServer(g, s.User())
 }
 
 type UnimplementedServer struct {
+	ShiftServer  ShiftServiceServer
 	TenantServer TenantServiceServer
 	UserServer   UserServiceServer
 }
 
+func (UnimplementedServer) Shift() ShiftServiceServer   { return UnimplementedShiftServiceServer{} }
 func (UnimplementedServer) Tenant() TenantServiceServer { return UnimplementedTenantServiceServer{} }
 func (UnimplementedServer) User() UserServiceServer     { return UnimplementedUserServiceServer{} }
 
 type StaticServer struct {
+	ShiftServer  ShiftServiceServer
 	TenantServer TenantServiceServer
 	UserServer   UserServiceServer
 }
 
+func (s StaticServer) Shift() ShiftServiceServer   { return s.ShiftServer }
 func (s StaticServer) Tenant() TenantServiceServer { return s.TenantServer }
 func (s StaticServer) User() UserServiceServer     { return s.UserServer }
 
 type Client interface {
+	Shift() ShiftServiceClient
 	Tenant() TenantServiceClient
 	User() UserServiceClient
 }
 
 func NewClient(c *grpc.ClientConn) Client {
 	return &client{
+		_Shift:  NewShiftServiceClient(c),
 		_Tenant: NewTenantServiceClient(c),
 		_User:   NewUserServiceClient(c),
 	}
 }
 
 type client struct {
+	_Shift  ShiftServiceClient
 	_Tenant TenantServiceClient
 	_User   UserServiceClient
 }
 
+func (c *client) Shift() ShiftServiceClient   { return c._Shift }
 func (c *client) Tenant() TenantServiceClient { return c._Tenant }
 func (c *client) User() UserServiceClient     { return c._User }
 
@@ -145,7 +155,7 @@ func SinkOf(s Server) Server {
 //		Overlay
 //	}
 //
-//	func (s Server) Tenant() TenantServiceServer { ... }
+//	func (s Server) Shift() ShiftServiceServer { ... }
 type Overlay struct {
 	Server
 }
