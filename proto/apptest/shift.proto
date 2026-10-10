@@ -1,0 +1,44 @@
+edition = "2023";
+
+package apptest;
+
+import "google/protobuf/timestamp.proto";
+import "orm.proto";
+
+option features.field_presence = IMPLICIT;
+option go_package = "github.com/protobuf-orm/protoc-gen-orm-go/internal/apptest";
+
+// Shift is unique over a desk and the time it starts, so a reference by that
+// index holds a message-typed field: the constructor takes the pointer its
+// setter takes, and `Picks` asks what the timestamp says rather than which
+// message holds it. Both were wrong while every index in this app held
+// scalars.
+message Shift {
+  bytes id = 1 [(orm.field) = {
+    type: TYPE_UUID
+    key: true
+  }];
+
+  string desk = 2;
+  google.protobuf.Timestamp starts_at = 3;
+
+  option (orm.message) = {
+    rpc: {crud: true}
+    indexes: [
+      {
+        name: "slot"
+        refs: [
+          {
+            name: "desk"
+            number: 2
+          },
+          {
+            name: "starts_at"
+            number: 3
+          }
+        ]
+        unique: true
+      }
+    ]
+  };
+}

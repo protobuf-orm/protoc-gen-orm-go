@@ -11,6 +11,9 @@ import (
 	"google.golang.org/protobuf/compiler/protogen"
 )
 
+// protoEqual is how a message-typed field is compared; see [fileWork.xRcvPicks].
+var protoEqual = protogen.GoImportPath("google.golang.org/protobuf/proto").Ident("Equal")
+
 func (w *fileWork) xRefRcvPick() {
 	name_x := w.entity.Name()
 	x_get := name_x + "GetRequest"
@@ -126,6 +129,8 @@ func (w *fileWork) xRcvPicks() {
 			switch p.Type().Decay() {
 			case ormpb.Type_TYPE_BYTES:
 				w.P("		return ", protogen.GoImportPath("bytes").Ident("Equal"), "(", a, ", ", b, ")")
+			case ormpb.Type_TYPE_MESSAGE:
+				w.P("		return ", protoEqual, "(", a, ", ", b, ")")
 			default:
 				w.P("		return ", a, " == ", b)
 			}
@@ -151,6 +156,15 @@ func (w *fileWork) xRcvPicks() {
 					if p.Type().Decay() == ormpb.Type_TYPE_BYTES {
 						w.Pf("(%s(x.%s, v.%s))",
 							w.QualifiedGoIdent(protogen.GoImportPath("bytes").Ident("Equal")), u, u)
+						break
+					}
+
+					// And a message is a pointer, so `==` compiles and asks
+					// whether the two are one message rather than whether they
+					// say the same thing. Two timestamps of the same instant
+					// are two messages.
+					if p.Type().Decay() == ormpb.Type_TYPE_MESSAGE {
+						w.Pf("(%s(x.%s, v.%s))", w.QualifiedGoIdent(protoEqual), u, u)
 						break
 					}
 
