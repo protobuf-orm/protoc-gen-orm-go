@@ -35,6 +35,14 @@ func UserByAlias(alias string, tenant *TenantRef) *UserRef
 func UserGetByAlias(alias string, tenant *TenantRef) *UserGetRequest
 ```
 
+They are written for an entity whose verbs name a row by its Ref: Get, Patch,
+Apply or Erase. The ones that answer or take a `<Entity>GetRequest` or a
+`<Entity>Select` (`Pick`, `WithSelect`, `<Entity>GetBy…`) are written only
+where the entity has a Get, because
+[protoc-gen-orm-service](../protoc-gen-orm-service) writes those messages for
+the Get and nothing else. An entity with writes and no Get has `Ref`, `Picks`
+and `<Entity>By…`.
+
 ### 2. Store wiring — `store.g.go` (one per module)
 
 Aggregates every entity's gRPC service into a single registration surface:

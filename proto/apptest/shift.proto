@@ -42,3 +42,15 @@ message Shift {
     ]
   };
 }
+
+// Counter is written and erased and never read: it has no Get, so it has no
+// GetRequest and no Select. Its query helpers are the ones a Ref is enough
+// for.
+message Counter {
+  string id = 1 [(orm.field) = {key: true}];
+  int64 count = 2;
+
+  option (orm.message) = {
+    rpc: {add: {}, patch: {}, apply: {}, erase: {}}
+  };
+}

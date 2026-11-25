@@ -73,6 +73,29 @@ func ShiftGetBySlot(desk string, starts_at *timestamppb.Timestamp) *ShiftGetRequ
 	return ShiftGetRequest_builder{Ref: ShiftBySlot(desk, starts_at)}.Build()
 }
 
+func (x *Counter) Ref() *CounterRef {
+	if v := x.GetId(); len(v) > 0 {
+		return CounterById(v)
+	}
+
+	return nil
+}
+
+func (x *CounterRef) Picks(v *Counter) bool {
+	switch x.WhichKey() {
+	case CounterRef_Id_case:
+		return x.GetId() == v.GetId()
+	default:
+		return false
+	}
+}
+
+func CounterById(v string) *CounterRef {
+	x := &CounterRef{}
+	x.SetId(v)
+	return x
+}
+
 func (x *TenantRef) Pick() *TenantGetRequest {
 	return TenantGetRequest_builder{Ref: x}.Build()
 }
