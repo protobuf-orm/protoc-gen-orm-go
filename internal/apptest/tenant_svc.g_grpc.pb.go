@@ -25,7 +25,6 @@ const (
 	TenantService_Add_FullMethodName   = "/apptest.TenantService/Add"
 	TenantService_Get_FullMethodName   = "/apptest.TenantService/Get"
 	TenantService_Patch_FullMethodName = "/apptest.TenantService/Patch"
-	TenantService_Apply_FullMethodName = "/apptest.TenantService/Apply"
 	TenantService_Erase_FullMethodName = "/apptest.TenantService/Erase"
 )
 
@@ -39,8 +38,6 @@ type TenantServiceClient interface {
 	Get(ctx context.Context, in *TenantGetRequest, opts ...grpc.CallOption) (*Tenant, error)
 	// Patch updates an existing Tenant
 	Patch(ctx context.Context, in *TenantPatchRequest, opts ...grpc.CallOption) (*Tenant, error)
-	// Apply applies a patch document to an existing Tenant
-	Apply(ctx context.Context, in *TenantApplyRequest, opts ...grpc.CallOption) (*Tenant, error)
 	// Erase deletes a Tenant
 	Erase(ctx context.Context, in *TenantRef, opts ...grpc.CallOption) (*TenantEraseResponse, error)
 }
@@ -83,16 +80,6 @@ func (c *tenantServiceClient) Patch(ctx context.Context, in *TenantPatchRequest,
 	return out, nil
 }
 
-func (c *tenantServiceClient) Apply(ctx context.Context, in *TenantApplyRequest, opts ...grpc.CallOption) (*Tenant, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Tenant)
-	err := c.cc.Invoke(ctx, TenantService_Apply_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *tenantServiceClient) Erase(ctx context.Context, in *TenantRef, opts ...grpc.CallOption) (*TenantEraseResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(TenantEraseResponse)
@@ -113,8 +100,6 @@ type TenantServiceServer interface {
 	Get(context.Context, *TenantGetRequest) (*Tenant, error)
 	// Patch updates an existing Tenant
 	Patch(context.Context, *TenantPatchRequest) (*Tenant, error)
-	// Apply applies a patch document to an existing Tenant
-	Apply(context.Context, *TenantApplyRequest) (*Tenant, error)
 	// Erase deletes a Tenant
 	Erase(context.Context, *TenantRef) (*TenantEraseResponse, error)
 	mustEmbedUnimplementedTenantServiceServer()
@@ -135,9 +120,6 @@ func (UnimplementedTenantServiceServer) Get(context.Context, *TenantGetRequest) 
 }
 func (UnimplementedTenantServiceServer) Patch(context.Context, *TenantPatchRequest) (*Tenant, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Patch not implemented")
-}
-func (UnimplementedTenantServiceServer) Apply(context.Context, *TenantApplyRequest) (*Tenant, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Apply not implemented")
 }
 func (UnimplementedTenantServiceServer) Erase(context.Context, *TenantRef) (*TenantEraseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Erase not implemented")
@@ -217,24 +199,6 @@ func _TenantService_Patch_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TenantService_Apply_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TenantApplyRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(TenantServiceServer).Apply(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: TenantService_Apply_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TenantServiceServer).Apply(ctx, req.(*TenantApplyRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _TenantService_Erase_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(TenantRef)
 	if err := dec(in); err != nil {
@@ -271,10 +235,6 @@ var TenantService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Patch",
 			Handler:    _TenantService_Patch_Handler,
-		},
-		{
-			MethodName: "Apply",
-			Handler:    _TenantService_Apply_Handler,
 		},
 		{
 			MethodName: "Erase",

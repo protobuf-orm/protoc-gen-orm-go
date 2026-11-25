@@ -25,7 +25,6 @@ const (
 	ShiftService_Add_FullMethodName   = "/apptest.ShiftService/Add"
 	ShiftService_Get_FullMethodName   = "/apptest.ShiftService/Get"
 	ShiftService_Patch_FullMethodName = "/apptest.ShiftService/Patch"
-	ShiftService_Apply_FullMethodName = "/apptest.ShiftService/Apply"
 	ShiftService_Erase_FullMethodName = "/apptest.ShiftService/Erase"
 )
 
@@ -39,8 +38,6 @@ type ShiftServiceClient interface {
 	Get(ctx context.Context, in *ShiftGetRequest, opts ...grpc.CallOption) (*Shift, error)
 	// Patch updates an existing Shift
 	Patch(ctx context.Context, in *ShiftPatchRequest, opts ...grpc.CallOption) (*Shift, error)
-	// Apply applies a patch document to an existing Shift
-	Apply(ctx context.Context, in *ShiftApplyRequest, opts ...grpc.CallOption) (*Shift, error)
 	// Erase deletes a Shift
 	Erase(ctx context.Context, in *ShiftRef, opts ...grpc.CallOption) (*ShiftEraseResponse, error)
 }
@@ -83,16 +80,6 @@ func (c *shiftServiceClient) Patch(ctx context.Context, in *ShiftPatchRequest, o
 	return out, nil
 }
 
-func (c *shiftServiceClient) Apply(ctx context.Context, in *ShiftApplyRequest, opts ...grpc.CallOption) (*Shift, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Shift)
-	err := c.cc.Invoke(ctx, ShiftService_Apply_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *shiftServiceClient) Erase(ctx context.Context, in *ShiftRef, opts ...grpc.CallOption) (*ShiftEraseResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ShiftEraseResponse)
@@ -113,8 +100,6 @@ type ShiftServiceServer interface {
 	Get(context.Context, *ShiftGetRequest) (*Shift, error)
 	// Patch updates an existing Shift
 	Patch(context.Context, *ShiftPatchRequest) (*Shift, error)
-	// Apply applies a patch document to an existing Shift
-	Apply(context.Context, *ShiftApplyRequest) (*Shift, error)
 	// Erase deletes a Shift
 	Erase(context.Context, *ShiftRef) (*ShiftEraseResponse, error)
 	mustEmbedUnimplementedShiftServiceServer()
@@ -135,9 +120,6 @@ func (UnimplementedShiftServiceServer) Get(context.Context, *ShiftGetRequest) (*
 }
 func (UnimplementedShiftServiceServer) Patch(context.Context, *ShiftPatchRequest) (*Shift, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Patch not implemented")
-}
-func (UnimplementedShiftServiceServer) Apply(context.Context, *ShiftApplyRequest) (*Shift, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Apply not implemented")
 }
 func (UnimplementedShiftServiceServer) Erase(context.Context, *ShiftRef) (*ShiftEraseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Erase not implemented")
@@ -217,24 +199,6 @@ func _ShiftService_Patch_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ShiftService_Apply_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ShiftApplyRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ShiftServiceServer).Apply(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ShiftService_Apply_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ShiftServiceServer).Apply(ctx, req.(*ShiftApplyRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _ShiftService_Erase_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ShiftRef)
 	if err := dec(in); err != nil {
@@ -271,10 +235,6 @@ var ShiftService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Patch",
 			Handler:    _ShiftService_Patch_Handler,
-		},
-		{
-			MethodName: "Apply",
-			Handler:    _ShiftService_Apply_Handler,
 		},
 		{
 			MethodName: "Erase",

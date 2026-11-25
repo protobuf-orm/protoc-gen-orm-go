@@ -10,7 +10,7 @@
 package apptest
 
 import (
-	patchpb "github.com/lesomnus/protobuf-patch/patchpb"
+	_ "github.com/protobuf-orm/protobuf-orm/ormpb"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -1213,99 +1213,6 @@ func (b0 UserPatchRequest_builder) Build() *UserPatchRequest {
 	return m0
 }
 
-type UserApplyRequest struct {
-	state            protoimpl.MessageState `protogen:"opaque.v1"`
-	xxx_hidden_Ref   *UserRef               `protobuf:"bytes,1,opt,name=ref"`
-	xxx_hidden_Patch *patchpb.Patch         `protobuf:"bytes,2,opt,name=patch"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
-}
-
-func (x *UserApplyRequest) Reset() {
-	*x = UserApplyRequest{}
-	mi := &file_apptest_user_svc_g_proto_msgTypes[7]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UserApplyRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UserApplyRequest) ProtoMessage() {}
-
-func (x *UserApplyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_apptest_user_svc_g_proto_msgTypes[7]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-func (x *UserApplyRequest) GetRef() *UserRef {
-	if x != nil {
-		return x.xxx_hidden_Ref
-	}
-	return nil
-}
-
-func (x *UserApplyRequest) GetPatch() *patchpb.Patch {
-	if x != nil {
-		return x.xxx_hidden_Patch
-	}
-	return nil
-}
-
-func (x *UserApplyRequest) SetRef(v *UserRef) {
-	x.xxx_hidden_Ref = v
-}
-
-func (x *UserApplyRequest) SetPatch(v *patchpb.Patch) {
-	x.xxx_hidden_Patch = v
-}
-
-func (x *UserApplyRequest) HasRef() bool {
-	if x == nil {
-		return false
-	}
-	return x.xxx_hidden_Ref != nil
-}
-
-func (x *UserApplyRequest) HasPatch() bool {
-	if x == nil {
-		return false
-	}
-	return x.xxx_hidden_Patch != nil
-}
-
-func (x *UserApplyRequest) ClearRef() {
-	x.xxx_hidden_Ref = nil
-}
-
-func (x *UserApplyRequest) ClearPatch() {
-	x.xxx_hidden_Patch = nil
-}
-
-type UserApplyRequest_builder struct {
-	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
-
-	Ref   *UserRef
-	Patch *patchpb.Patch
-}
-
-func (b0 UserApplyRequest_builder) Build() *UserApplyRequest {
-	m0 := &UserApplyRequest{}
-	b, x := &b0, m0
-	_, _ = b, x
-	x.xxx_hidden_Ref = b.Ref
-	x.xxx_hidden_Patch = b.Patch
-	return m0
-}
-
 type UserEraseResponse struct {
 	state                  protoimpl.MessageState `protogen:"opaque.v1"`
 	xxx_hidden_Erased      bool                   `protobuf:"varint,1,opt,name=erased"`
@@ -1317,7 +1224,7 @@ type UserEraseResponse struct {
 
 func (x *UserEraseResponse) Reset() {
 	*x = UserEraseResponse{}
-	mi := &file_apptest_user_svc_g_proto_msgTypes[8]
+	mi := &file_apptest_user_svc_g_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1329,7 +1236,7 @@ func (x *UserEraseResponse) String() string {
 func (*UserEraseResponse) ProtoMessage() {}
 
 func (x *UserEraseResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_apptest_user_svc_g_proto_msgTypes[8]
+	mi := &file_apptest_user_svc_g_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1390,26 +1297,26 @@ var File_apptest_user_svc_g_proto protoreflect.FileDescriptor
 
 const file_apptest_user_svc_g_proto_rawDesc = "" +
 	"\n" +
-	"\x18apptest/user_svc.g.proto\x12\aapptest\x1a\x1aapptest/tenant_svc.g.proto\x1a\x12apptest/user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x11patch/patch.proto\"\xd1\x02\n" +
-	"\x0eUserAddRequest\x12\x15\n" +
-	"\x02id\x18\x01 \x01(\fB\x05\xaa\x01\x02\b\x02R\x02id\x12*\n" +
+	"\x18apptest/user_svc.g.proto\x12\aapptest\x1a\x1aapptest/tenant_svc.g.proto\x1a\x12apptest/user.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\torm.proto\"\xdd\x02\n" +
+	"\x0eUserAddRequest\x12\x1b\n" +
+	"\x02id\x18\x01 \x01(\fB\v\xea\x82\x16\x02\x10@\xaa\x01\x02\b\x02R\x02id\x12*\n" +
 	"\x06tenant\x18\x02 \x01(\v2\x12.apptest.TenantRefR\x06tenant\x12\x14\n" +
 	"\x05alias\x18\x04 \x01(\tR\x05alias\x12\x12\n" +
 	"\x04name\x18\x05 \x01(\tR\x04name\x12;\n" +
-	"\x06labels\x18\a \x03(\v2#.apptest.UserAddRequest.LabelsEntryR\x06labels\x12\x1b\n" +
-	"\x05realm\x18\b \x01(\fB\x05\xaa\x01\x02\b\x02R\x05realm\x12=\n" +
+	"\x06labels\x18\a \x03(\v2#.apptest.UserAddRequest.LabelsEntryR\x06labels\x12!\n" +
+	"\x05realm\x18\b \x01(\fB\v\xea\x82\x16\x02\x10@\xaa\x01\x02\b\x02R\x05realm\x12=\n" +
 	"\fdate_created\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampR\vdateCreated\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"R\n" +
 	"\x0eUserRefByAlias\x12\x14\n" +
 	"\x05alias\x18\x04 \x01(\tR\x05alias\x12*\n" +
-	"\x06tenant\x18\x02 \x01(\v2\x12.apptest.TenantRefR\x06tenant\"<\n" +
-	"\x0eUserRefByRealm\x12\x14\n" +
-	"\x05realm\x18\b \x01(\fR\x05realm\x12\x14\n" +
-	"\x05alias\x18\x04 \x01(\tR\x05alias\"\x84\x01\n" +
-	"\aUserRef\x12\x10\n" +
-	"\x02id\x18\x01 \x01(\fH\x00R\x02id\x12/\n" +
+	"\x06tenant\x18\x02 \x01(\v2\x12.apptest.TenantRefR\x06tenant\"D\n" +
+	"\x0eUserRefByRealm\x12\x1c\n" +
+	"\x05realm\x18\b \x01(\fB\x06\xea\x82\x16\x02\x10@R\x05realm\x12\x14\n" +
+	"\x05alias\x18\x04 \x01(\tR\x05alias\"\x8c\x01\n" +
+	"\aUserRef\x12\x18\n" +
+	"\x02id\x18\x01 \x01(\fB\x06\xea\x82\x16\x02\x10@H\x00R\x02id\x12/\n" +
 	"\x05alias\x18\x04 \x01(\v2\x17.apptest.UserRefByAliasH\x00R\x05alias\x12/\n" +
 	"\x05realm\x18\b \x01(\v2\x17.apptest.UserRefByRealmH\x00R\x05realmB\x05\n" +
 	"\x03key\"\xc8\x01\n" +
@@ -1424,31 +1331,27 @@ const file_apptest_user_svc_g_proto_rawDesc = "" +
 	"\fdate_created\x18\x0f \x01(\bR\vdateCreated\"a\n" +
 	"\x0eUserGetRequest\x12\"\n" +
 	"\x03ref\x18\x01 \x01(\v2\x10.apptest.UserRefR\x03ref\x12+\n" +
-	"\x06select\x18\x02 \x01(\v2\x13.apptest.UserSelectR\x06select\"\x9c\x02\n" +
+	"\x06select\x18\x02 \x01(\v2\x13.apptest.UserSelectR\x06select\"\xa4\x02\n" +
 	"\x10UserPatchRequest\x12\"\n" +
 	"\x03ref\x18\x01 \x01(\v2\x10.apptest.UserRefR\x03ref\x12*\n" +
 	"\x06tenant\x18\x04 \x01(\v2\x12.apptest.TenantRefR\x06tenant\x12\x14\n" +
 	"\x05alias\x18\b \x01(\tR\x05alias\x12\x12\n" +
 	"\x04name\x18\n" +
 	" \x01(\tR\x04name\x12=\n" +
-	"\x06labels\x18\x0e \x03(\v2%.apptest.UserPatchRequest.LabelsEntryR\x06labels\x12\x14\n" +
-	"\x05realm\x18\x10 \x01(\fR\x05realm\x1a9\n" +
+	"\x06labels\x18\x0e \x03(\v2%.apptest.UserPatchRequest.LabelsEntryR\x06labels\x12\x1c\n" +
+	"\x05realm\x18\x10 \x01(\fB\x06\xea\x82\x16\x02\x10@R\x05realm\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"Z\n" +
-	"\x10UserApplyRequest\x12\"\n" +
-	"\x03ref\x18\x01 \x01(\v2\x10.apptest.UserRefR\x03ref\x12\"\n" +
-	"\x05patch\x18\x02 \x01(\v2\f.patch.PatchR\x05patch\"+\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"+\n" +
 	"\x11UserEraseResponse\x12\x16\n" +
-	"\x06erased\x18\x01 \x01(\bR\x06erased2\x88\x02\n" +
+	"\x06erased\x18\x01 \x01(\bR\x06erased2\xd5\x01\n" +
 	"\vUserService\x12-\n" +
 	"\x03Add\x12\x17.apptest.UserAddRequest\x1a\r.apptest.User\x12-\n" +
 	"\x03Get\x12\x17.apptest.UserGetRequest\x1a\r.apptest.User\x121\n" +
-	"\x05Patch\x12\x19.apptest.UserPatchRequest\x1a\r.apptest.User\x121\n" +
-	"\x05Apply\x12\x19.apptest.UserApplyRequest\x1a\r.apptest.User\x125\n" +
+	"\x05Patch\x12\x19.apptest.UserPatchRequest\x1a\r.apptest.User\x125\n" +
 	"\x05Erase\x12\x10.apptest.UserRef\x1a\x1a.apptest.UserEraseResponseB<Z:github.com/protobuf-orm/protoc-gen-orm-go/internal/apptestb\beditionsp\xe8\a"
 
-var file_apptest_user_svc_g_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_apptest_user_svc_g_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_apptest_user_svc_g_proto_goTypes = []any{
 	(*UserAddRequest)(nil),        // 0: apptest.UserAddRequest
 	(*UserRefByAlias)(nil),        // 1: apptest.UserRefByAlias
@@ -1457,46 +1360,40 @@ var file_apptest_user_svc_g_proto_goTypes = []any{
 	(*UserSelect)(nil),            // 4: apptest.UserSelect
 	(*UserGetRequest)(nil),        // 5: apptest.UserGetRequest
 	(*UserPatchRequest)(nil),      // 6: apptest.UserPatchRequest
-	(*UserApplyRequest)(nil),      // 7: apptest.UserApplyRequest
-	(*UserEraseResponse)(nil),     // 8: apptest.UserEraseResponse
-	nil,                           // 9: apptest.UserAddRequest.LabelsEntry
-	nil,                           // 10: apptest.UserPatchRequest.LabelsEntry
-	(*TenantRef)(nil),             // 11: apptest.TenantRef
-	(*timestamppb.Timestamp)(nil), // 12: google.protobuf.Timestamp
-	(*TenantSelect)(nil),          // 13: apptest.TenantSelect
-	(*patchpb.Patch)(nil),         // 14: patch.Patch
-	(*User)(nil),                  // 15: apptest.User
+	(*UserEraseResponse)(nil),     // 7: apptest.UserEraseResponse
+	nil,                           // 8: apptest.UserAddRequest.LabelsEntry
+	nil,                           // 9: apptest.UserPatchRequest.LabelsEntry
+	(*TenantRef)(nil),             // 10: apptest.TenantRef
+	(*timestamppb.Timestamp)(nil), // 11: google.protobuf.Timestamp
+	(*TenantSelect)(nil),          // 12: apptest.TenantSelect
+	(*User)(nil),                  // 13: apptest.User
 }
 var file_apptest_user_svc_g_proto_depIdxs = []int32{
-	11, // 0: apptest.UserAddRequest.tenant:type_name -> apptest.TenantRef
-	9,  // 1: apptest.UserAddRequest.labels:type_name -> apptest.UserAddRequest.LabelsEntry
-	12, // 2: apptest.UserAddRequest.date_created:type_name -> google.protobuf.Timestamp
-	11, // 3: apptest.UserRefByAlias.tenant:type_name -> apptest.TenantRef
+	10, // 0: apptest.UserAddRequest.tenant:type_name -> apptest.TenantRef
+	8,  // 1: apptest.UserAddRequest.labels:type_name -> apptest.UserAddRequest.LabelsEntry
+	11, // 2: apptest.UserAddRequest.date_created:type_name -> google.protobuf.Timestamp
+	10, // 3: apptest.UserRefByAlias.tenant:type_name -> apptest.TenantRef
 	1,  // 4: apptest.UserRef.alias:type_name -> apptest.UserRefByAlias
 	2,  // 5: apptest.UserRef.realm:type_name -> apptest.UserRefByRealm
-	13, // 6: apptest.UserSelect.tenant:type_name -> apptest.TenantSelect
+	12, // 6: apptest.UserSelect.tenant:type_name -> apptest.TenantSelect
 	3,  // 7: apptest.UserGetRequest.ref:type_name -> apptest.UserRef
 	4,  // 8: apptest.UserGetRequest.select:type_name -> apptest.UserSelect
 	3,  // 9: apptest.UserPatchRequest.ref:type_name -> apptest.UserRef
-	11, // 10: apptest.UserPatchRequest.tenant:type_name -> apptest.TenantRef
-	10, // 11: apptest.UserPatchRequest.labels:type_name -> apptest.UserPatchRequest.LabelsEntry
-	3,  // 12: apptest.UserApplyRequest.ref:type_name -> apptest.UserRef
-	14, // 13: apptest.UserApplyRequest.patch:type_name -> patch.Patch
-	0,  // 14: apptest.UserService.Add:input_type -> apptest.UserAddRequest
-	5,  // 15: apptest.UserService.Get:input_type -> apptest.UserGetRequest
-	6,  // 16: apptest.UserService.Patch:input_type -> apptest.UserPatchRequest
-	7,  // 17: apptest.UserService.Apply:input_type -> apptest.UserApplyRequest
-	3,  // 18: apptest.UserService.Erase:input_type -> apptest.UserRef
-	15, // 19: apptest.UserService.Add:output_type -> apptest.User
-	15, // 20: apptest.UserService.Get:output_type -> apptest.User
-	15, // 21: apptest.UserService.Patch:output_type -> apptest.User
-	15, // 22: apptest.UserService.Apply:output_type -> apptest.User
-	8,  // 23: apptest.UserService.Erase:output_type -> apptest.UserEraseResponse
-	19, // [19:24] is the sub-list for method output_type
-	14, // [14:19] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	10, // 10: apptest.UserPatchRequest.tenant:type_name -> apptest.TenantRef
+	9,  // 11: apptest.UserPatchRequest.labels:type_name -> apptest.UserPatchRequest.LabelsEntry
+	0,  // 12: apptest.UserService.Add:input_type -> apptest.UserAddRequest
+	5,  // 13: apptest.UserService.Get:input_type -> apptest.UserGetRequest
+	6,  // 14: apptest.UserService.Patch:input_type -> apptest.UserPatchRequest
+	3,  // 15: apptest.UserService.Erase:input_type -> apptest.UserRef
+	13, // 16: apptest.UserService.Add:output_type -> apptest.User
+	13, // 17: apptest.UserService.Get:output_type -> apptest.User
+	13, // 18: apptest.UserService.Patch:output_type -> apptest.User
+	7,  // 19: apptest.UserService.Erase:output_type -> apptest.UserEraseResponse
+	16, // [16:20] is the sub-list for method output_type
+	12, // [12:16] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_apptest_user_svc_g_proto_init() }
@@ -1517,7 +1414,7 @@ func file_apptest_user_svc_g_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_apptest_user_svc_g_proto_rawDesc), len(file_apptest_user_svc_g_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   11,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

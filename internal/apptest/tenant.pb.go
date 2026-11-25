@@ -171,7 +171,7 @@ var File_apptest_tenant_proto protoreflect.FileDescriptor
 
 const file_apptest_tenant_proto_rawDesc = "" +
 	"\n" +
-	"\x14apptest/tenant.proto\x12\aapptest\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\torm.proto\"\xac\x02\n" +
+	"\x14apptest/tenant.proto\x12\aapptest\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\torm.proto\"\xb6\x02\n" +
 	"\x06Tenant\x12\x18\n" +
 	"\x02id\x18\x01 \x01(\fB\b\xea\x82\x16\x04\x10@(\x01R\x02id\x12\"\n" +
 	"\x05alias\x18\x04 \x01(\tB\f\xea\x82\x16\x03\x82\x01\x00\xaa\x01\x02\b\x02R\x05alias\x12 \n" +
@@ -180,7 +180,7 @@ const file_apptest_tenant_proto_rawDesc = "" +
 	"\fdate_created\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampB\t\xea\x82\x16\x05@\x01\x82\x01\x00R\vdateCreated\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01:\b\xca\xfc\x15\x04\x12\x02\x10\x01B<Z:github.com/protobuf-orm/protoc-gen-orm-go/internal/apptestb\beditionsp\xe8\a"
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01:\x12\xca\xfc\x15\x0e\x12\f\x82\x01\x00\x8a\x01\x00\x92\x01\x00\x9a\x01\x00B<Z:github.com/protobuf-orm/protoc-gen-orm-go/internal/apptestb\beditionsp\xe8\a"
 
 var file_apptest_tenant_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_apptest_tenant_proto_goTypes = []any{

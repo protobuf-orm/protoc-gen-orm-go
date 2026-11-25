@@ -8,7 +8,7 @@ package apptest;
 import "apptest/tenant_svc.g.proto";
 import "apptest/user.proto";
 import "google/protobuf/timestamp.proto";
-import "patch/patch.proto";
+import "orm.proto";
 
 option go_package = "github.com/protobuf-orm/protoc-gen-orm-go/internal/apptest";
 
@@ -19,22 +19,22 @@ service UserService {
 	rpc Get(UserGetRequest) returns (User);
 	// Patch updates an existing User
 	rpc Patch(UserPatchRequest) returns (User);
-	// Apply applies a patch document to an existing User
-	rpc Apply(UserApplyRequest) returns (User);
 	// Erase deletes a User
 	rpc Erase(UserRef) returns (UserEraseResponse);
 }
 
 message UserAddRequest {
 	bytes id = 1 [
-		features.field_presence = IMPLICIT
+		(orm.field) = {type: TYPE_UUID}
+		, features.field_presence = IMPLICIT
 	];
 	TenantRef tenant = 2;
 	string alias = 4;
 	string name = 5;
 	map<string, string> labels = 7;
 	bytes realm = 8 [
-		features.field_presence = IMPLICIT
+		(orm.field) = {type: TYPE_UUID}
+		, features.field_presence = IMPLICIT
 	];
 	google.protobuf.Timestamp date_created = 15;
 }
@@ -45,13 +45,17 @@ message UserRefByAlias {
 }
 
 message UserRefByRealm {
-	bytes realm = 8;
+	bytes realm = 8 [
+		(orm.field) = {type: TYPE_UUID}
+	];
 	string alias = 4;
 }
 
 message UserRef {
 	oneof key {
-		bytes id = 1;
+		bytes id = 1 [
+			(orm.field) = {type: TYPE_UUID}
+		];
 		UserRefByAlias alias = 4;
 		UserRefByRealm realm = 8;
 	}
@@ -78,12 +82,9 @@ message UserPatchRequest {
 	string alias = 8;
 	string name = 10;
 	map<string, string> labels = 14;
-	bytes realm = 16;
-}
-
-message UserApplyRequest {
-	UserRef ref = 1;
-	patch.Patch patch = 2;
+	bytes realm = 16 [
+		(orm.field) = {type: TYPE_UUID}
+	];
 }
 
 message UserEraseResponse {

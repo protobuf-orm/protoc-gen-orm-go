@@ -47,7 +47,9 @@ func (a *App) Run(ctx context.Context, p *protogen.Plugin, g *graph.Graph) error
 			}
 
 			rpcs := entity.Rpcs()
-			need_work := rpcs.HasGet() || rpcs.HasPatch() || rpcs.HasErase()
+			// Every verb that names a row by its Ref; Add is the one that
+			// does not. Apply is asked on its own: Patch does not bring it.
+			need_work := rpcs.HasGet() || rpcs.HasPatch() || rpcs.HasApply() || rpcs.HasErase()
 			if !need_work {
 				continue
 			}

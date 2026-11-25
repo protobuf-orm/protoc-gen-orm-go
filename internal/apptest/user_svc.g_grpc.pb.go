@@ -25,7 +25,6 @@ const (
 	UserService_Add_FullMethodName   = "/apptest.UserService/Add"
 	UserService_Get_FullMethodName   = "/apptest.UserService/Get"
 	UserService_Patch_FullMethodName = "/apptest.UserService/Patch"
-	UserService_Apply_FullMethodName = "/apptest.UserService/Apply"
 	UserService_Erase_FullMethodName = "/apptest.UserService/Erase"
 )
 
@@ -39,8 +38,6 @@ type UserServiceClient interface {
 	Get(ctx context.Context, in *UserGetRequest, opts ...grpc.CallOption) (*User, error)
 	// Patch updates an existing User
 	Patch(ctx context.Context, in *UserPatchRequest, opts ...grpc.CallOption) (*User, error)
-	// Apply applies a patch document to an existing User
-	Apply(ctx context.Context, in *UserApplyRequest, opts ...grpc.CallOption) (*User, error)
 	// Erase deletes a User
 	Erase(ctx context.Context, in *UserRef, opts ...grpc.CallOption) (*UserEraseResponse, error)
 }
@@ -83,16 +80,6 @@ func (c *userServiceClient) Patch(ctx context.Context, in *UserPatchRequest, opt
 	return out, nil
 }
 
-func (c *userServiceClient) Apply(ctx context.Context, in *UserApplyRequest, opts ...grpc.CallOption) (*User, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(User)
-	err := c.cc.Invoke(ctx, UserService_Apply_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *userServiceClient) Erase(ctx context.Context, in *UserRef, opts ...grpc.CallOption) (*UserEraseResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UserEraseResponse)
@@ -113,8 +100,6 @@ type UserServiceServer interface {
 	Get(context.Context, *UserGetRequest) (*User, error)
 	// Patch updates an existing User
 	Patch(context.Context, *UserPatchRequest) (*User, error)
-	// Apply applies a patch document to an existing User
-	Apply(context.Context, *UserApplyRequest) (*User, error)
 	// Erase deletes a User
 	Erase(context.Context, *UserRef) (*UserEraseResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
@@ -135,9 +120,6 @@ func (UnimplementedUserServiceServer) Get(context.Context, *UserGetRequest) (*Us
 }
 func (UnimplementedUserServiceServer) Patch(context.Context, *UserPatchRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Patch not implemented")
-}
-func (UnimplementedUserServiceServer) Apply(context.Context, *UserApplyRequest) (*User, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Apply not implemented")
 }
 func (UnimplementedUserServiceServer) Erase(context.Context, *UserRef) (*UserEraseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Erase not implemented")
@@ -217,24 +199,6 @@ func _UserService_Patch_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_Apply_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserApplyRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).Apply(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserService_Apply_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).Apply(ctx, req.(*UserApplyRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _UserService_Erase_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UserRef)
 	if err := dec(in); err != nil {
@@ -271,10 +235,6 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Patch",
 			Handler:    _UserService_Patch_Handler,
-		},
-		{
-			MethodName: "Apply",
-			Handler:    _UserService_Apply_Handler,
 		},
 		{
 			MethodName: "Erase",
