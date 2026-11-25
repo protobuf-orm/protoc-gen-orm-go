@@ -10,7 +10,7 @@
 package apptest
 
 import (
-	patchpb "github.com/lesomnus/protobuf-patch/patchpb"
+	_ "github.com/protobuf-orm/protobuf-orm/ormpb"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -753,99 +753,6 @@ func (b0 ShiftPatchRequest_builder) Build() *ShiftPatchRequest {
 	return m0
 }
 
-type ShiftApplyRequest struct {
-	state            protoimpl.MessageState `protogen:"opaque.v1"`
-	xxx_hidden_Ref   *ShiftRef              `protobuf:"bytes,1,opt,name=ref"`
-	xxx_hidden_Patch *patchpb.Patch         `protobuf:"bytes,2,opt,name=patch"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
-}
-
-func (x *ShiftApplyRequest) Reset() {
-	*x = ShiftApplyRequest{}
-	mi := &file_apptest_shift_svc_g_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ShiftApplyRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ShiftApplyRequest) ProtoMessage() {}
-
-func (x *ShiftApplyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_apptest_shift_svc_g_proto_msgTypes[6]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-func (x *ShiftApplyRequest) GetRef() *ShiftRef {
-	if x != nil {
-		return x.xxx_hidden_Ref
-	}
-	return nil
-}
-
-func (x *ShiftApplyRequest) GetPatch() *patchpb.Patch {
-	if x != nil {
-		return x.xxx_hidden_Patch
-	}
-	return nil
-}
-
-func (x *ShiftApplyRequest) SetRef(v *ShiftRef) {
-	x.xxx_hidden_Ref = v
-}
-
-func (x *ShiftApplyRequest) SetPatch(v *patchpb.Patch) {
-	x.xxx_hidden_Patch = v
-}
-
-func (x *ShiftApplyRequest) HasRef() bool {
-	if x == nil {
-		return false
-	}
-	return x.xxx_hidden_Ref != nil
-}
-
-func (x *ShiftApplyRequest) HasPatch() bool {
-	if x == nil {
-		return false
-	}
-	return x.xxx_hidden_Patch != nil
-}
-
-func (x *ShiftApplyRequest) ClearRef() {
-	x.xxx_hidden_Ref = nil
-}
-
-func (x *ShiftApplyRequest) ClearPatch() {
-	x.xxx_hidden_Patch = nil
-}
-
-type ShiftApplyRequest_builder struct {
-	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
-
-	Ref   *ShiftRef
-	Patch *patchpb.Patch
-}
-
-func (b0 ShiftApplyRequest_builder) Build() *ShiftApplyRequest {
-	m0 := &ShiftApplyRequest{}
-	b, x := &b0, m0
-	_, _ = b, x
-	x.xxx_hidden_Ref = b.Ref
-	x.xxx_hidden_Patch = b.Patch
-	return m0
-}
-
 type ShiftEraseResponse struct {
 	state                  protoimpl.MessageState `protogen:"opaque.v1"`
 	xxx_hidden_Erased      bool                   `protobuf:"varint,1,opt,name=erased"`
@@ -857,7 +764,7 @@ type ShiftEraseResponse struct {
 
 func (x *ShiftEraseResponse) Reset() {
 	*x = ShiftEraseResponse{}
-	mi := &file_apptest_shift_svc_g_proto_msgTypes[7]
+	mi := &file_apptest_shift_svc_g_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -869,7 +776,7 @@ func (x *ShiftEraseResponse) String() string {
 func (*ShiftEraseResponse) ProtoMessage() {}
 
 func (x *ShiftEraseResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_apptest_shift_svc_g_proto_msgTypes[7]
+	mi := &file_apptest_shift_svc_g_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -930,16 +837,16 @@ var File_apptest_shift_svc_g_proto protoreflect.FileDescriptor
 
 const file_apptest_shift_svc_g_proto_rawDesc = "" +
 	"\n" +
-	"\x19apptest/shift_svc.g.proto\x12\aapptest\x1a\x13apptest/shift.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x11patch/patch.proto\"|\n" +
-	"\x0fShiftAddRequest\x12\x15\n" +
-	"\x02id\x18\x01 \x01(\fB\x05\xaa\x01\x02\b\x02R\x02id\x12\x19\n" +
+	"\x19apptest/shift_svc.g.proto\x12\aapptest\x1a\x13apptest/shift.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\torm.proto\"\x82\x01\n" +
+	"\x0fShiftAddRequest\x12\x1b\n" +
+	"\x02id\x18\x01 \x01(\fB\v\xea\x82\x16\x02\x10@\xaa\x01\x02\b\x02R\x02id\x12\x19\n" +
 	"\x04desk\x18\x02 \x01(\tB\x05\xaa\x01\x02\b\x02R\x04desk\x127\n" +
 	"\tstarts_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\bstartsAt\"]\n" +
 	"\x0eShiftRefBySlot\x12\x12\n" +
 	"\x04desk\x18\x02 \x01(\tR\x04desk\x127\n" +
-	"\tstarts_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\bstartsAt\"R\n" +
-	"\bShiftRef\x12\x10\n" +
-	"\x02id\x18\x01 \x01(\fH\x00R\x02id\x12-\n" +
+	"\tstarts_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\bstartsAt\"Z\n" +
+	"\bShiftRef\x12\x18\n" +
+	"\x02id\x18\x01 \x01(\fB\x06\xea\x82\x16\x02\x10@H\x00R\x02id\x12-\n" +
 	"\x04slot\x18\x02 \x01(\v2\x17.apptest.ShiftRefBySlotH\x00R\x04slotB\x05\n" +
 	"\x03key\"P\n" +
 	"\vShiftSelect\x12\x10\n" +
@@ -952,20 +859,16 @@ const file_apptest_shift_svc_g_proto_rawDesc = "" +
 	"\x11ShiftPatchRequest\x12#\n" +
 	"\x03ref\x18\x01 \x01(\v2\x11.apptest.ShiftRefR\x03ref\x12\x12\n" +
 	"\x04desk\x18\x04 \x01(\tR\x04desk\x127\n" +
-	"\tstarts_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\bstartsAt\"\\\n" +
-	"\x11ShiftApplyRequest\x12#\n" +
-	"\x03ref\x18\x01 \x01(\v2\x11.apptest.ShiftRefR\x03ref\x12\"\n" +
-	"\x05patch\x18\x02 \x01(\v2\f.patch.PatchR\x05patch\",\n" +
+	"\tstarts_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\bstartsAt\",\n" +
 	"\x12ShiftEraseResponse\x12\x16\n" +
-	"\x06erased\x18\x01 \x01(\bR\x06erased2\x93\x02\n" +
+	"\x06erased\x18\x01 \x01(\bR\x06erased2\xde\x01\n" +
 	"\fShiftService\x12/\n" +
 	"\x03Add\x12\x18.apptest.ShiftAddRequest\x1a\x0e.apptest.Shift\x12/\n" +
 	"\x03Get\x12\x18.apptest.ShiftGetRequest\x1a\x0e.apptest.Shift\x123\n" +
-	"\x05Patch\x12\x1a.apptest.ShiftPatchRequest\x1a\x0e.apptest.Shift\x123\n" +
-	"\x05Apply\x12\x1a.apptest.ShiftApplyRequest\x1a\x0e.apptest.Shift\x127\n" +
+	"\x05Patch\x12\x1a.apptest.ShiftPatchRequest\x1a\x0e.apptest.Shift\x127\n" +
 	"\x05Erase\x12\x11.apptest.ShiftRef\x1a\x1b.apptest.ShiftEraseResponseB<Z:github.com/protobuf-orm/protoc-gen-orm-go/internal/apptestb\beditionsp\xe8\a"
 
-var file_apptest_shift_svc_g_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_apptest_shift_svc_g_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_apptest_shift_svc_g_proto_goTypes = []any{
 	(*ShiftAddRequest)(nil),       // 0: apptest.ShiftAddRequest
 	(*ShiftRefBySlot)(nil),        // 1: apptest.ShiftRefBySlot
@@ -973,37 +876,31 @@ var file_apptest_shift_svc_g_proto_goTypes = []any{
 	(*ShiftSelect)(nil),           // 3: apptest.ShiftSelect
 	(*ShiftGetRequest)(nil),       // 4: apptest.ShiftGetRequest
 	(*ShiftPatchRequest)(nil),     // 5: apptest.ShiftPatchRequest
-	(*ShiftApplyRequest)(nil),     // 6: apptest.ShiftApplyRequest
-	(*ShiftEraseResponse)(nil),    // 7: apptest.ShiftEraseResponse
-	(*timestamppb.Timestamp)(nil), // 8: google.protobuf.Timestamp
-	(*patchpb.Patch)(nil),         // 9: patch.Patch
-	(*Shift)(nil),                 // 10: apptest.Shift
+	(*ShiftEraseResponse)(nil),    // 6: apptest.ShiftEraseResponse
+	(*timestamppb.Timestamp)(nil), // 7: google.protobuf.Timestamp
+	(*Shift)(nil),                 // 8: apptest.Shift
 }
 var file_apptest_shift_svc_g_proto_depIdxs = []int32{
-	8,  // 0: apptest.ShiftAddRequest.starts_at:type_name -> google.protobuf.Timestamp
-	8,  // 1: apptest.ShiftRefBySlot.starts_at:type_name -> google.protobuf.Timestamp
+	7,  // 0: apptest.ShiftAddRequest.starts_at:type_name -> google.protobuf.Timestamp
+	7,  // 1: apptest.ShiftRefBySlot.starts_at:type_name -> google.protobuf.Timestamp
 	1,  // 2: apptest.ShiftRef.slot:type_name -> apptest.ShiftRefBySlot
 	2,  // 3: apptest.ShiftGetRequest.ref:type_name -> apptest.ShiftRef
 	3,  // 4: apptest.ShiftGetRequest.select:type_name -> apptest.ShiftSelect
 	2,  // 5: apptest.ShiftPatchRequest.ref:type_name -> apptest.ShiftRef
-	8,  // 6: apptest.ShiftPatchRequest.starts_at:type_name -> google.protobuf.Timestamp
-	2,  // 7: apptest.ShiftApplyRequest.ref:type_name -> apptest.ShiftRef
-	9,  // 8: apptest.ShiftApplyRequest.patch:type_name -> patch.Patch
-	0,  // 9: apptest.ShiftService.Add:input_type -> apptest.ShiftAddRequest
-	4,  // 10: apptest.ShiftService.Get:input_type -> apptest.ShiftGetRequest
-	5,  // 11: apptest.ShiftService.Patch:input_type -> apptest.ShiftPatchRequest
-	6,  // 12: apptest.ShiftService.Apply:input_type -> apptest.ShiftApplyRequest
-	2,  // 13: apptest.ShiftService.Erase:input_type -> apptest.ShiftRef
-	10, // 14: apptest.ShiftService.Add:output_type -> apptest.Shift
-	10, // 15: apptest.ShiftService.Get:output_type -> apptest.Shift
-	10, // 16: apptest.ShiftService.Patch:output_type -> apptest.Shift
-	10, // 17: apptest.ShiftService.Apply:output_type -> apptest.Shift
-	7,  // 18: apptest.ShiftService.Erase:output_type -> apptest.ShiftEraseResponse
-	14, // [14:19] is the sub-list for method output_type
-	9,  // [9:14] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	7,  // 6: apptest.ShiftPatchRequest.starts_at:type_name -> google.protobuf.Timestamp
+	0,  // 7: apptest.ShiftService.Add:input_type -> apptest.ShiftAddRequest
+	4,  // 8: apptest.ShiftService.Get:input_type -> apptest.ShiftGetRequest
+	5,  // 9: apptest.ShiftService.Patch:input_type -> apptest.ShiftPatchRequest
+	2,  // 10: apptest.ShiftService.Erase:input_type -> apptest.ShiftRef
+	8,  // 11: apptest.ShiftService.Add:output_type -> apptest.Shift
+	8,  // 12: apptest.ShiftService.Get:output_type -> apptest.Shift
+	8,  // 13: apptest.ShiftService.Patch:output_type -> apptest.Shift
+	6,  // 14: apptest.ShiftService.Erase:output_type -> apptest.ShiftEraseResponse
+	11, // [11:15] is the sub-list for method output_type
+	7,  // [7:11] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_apptest_shift_svc_g_proto_init() }
@@ -1022,7 +919,7 @@ func file_apptest_shift_svc_g_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_apptest_shift_svc_g_proto_rawDesc), len(file_apptest_shift_svc_g_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

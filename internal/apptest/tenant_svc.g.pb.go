@@ -10,7 +10,7 @@
 package apptest
 
 import (
-	patchpb "github.com/lesomnus/protobuf-patch/patchpb"
+	_ "github.com/protobuf-orm/protobuf-orm/ormpb"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -772,99 +772,6 @@ func (b0 TenantPatchRequest_builder) Build() *TenantPatchRequest {
 	return m0
 }
 
-type TenantApplyRequest struct {
-	state            protoimpl.MessageState `protogen:"opaque.v1"`
-	xxx_hidden_Ref   *TenantRef             `protobuf:"bytes,1,opt,name=ref"`
-	xxx_hidden_Patch *patchpb.Patch         `protobuf:"bytes,2,opt,name=patch"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
-}
-
-func (x *TenantApplyRequest) Reset() {
-	*x = TenantApplyRequest{}
-	mi := &file_apptest_tenant_svc_g_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *TenantApplyRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*TenantApplyRequest) ProtoMessage() {}
-
-func (x *TenantApplyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_apptest_tenant_svc_g_proto_msgTypes[5]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-func (x *TenantApplyRequest) GetRef() *TenantRef {
-	if x != nil {
-		return x.xxx_hidden_Ref
-	}
-	return nil
-}
-
-func (x *TenantApplyRequest) GetPatch() *patchpb.Patch {
-	if x != nil {
-		return x.xxx_hidden_Patch
-	}
-	return nil
-}
-
-func (x *TenantApplyRequest) SetRef(v *TenantRef) {
-	x.xxx_hidden_Ref = v
-}
-
-func (x *TenantApplyRequest) SetPatch(v *patchpb.Patch) {
-	x.xxx_hidden_Patch = v
-}
-
-func (x *TenantApplyRequest) HasRef() bool {
-	if x == nil {
-		return false
-	}
-	return x.xxx_hidden_Ref != nil
-}
-
-func (x *TenantApplyRequest) HasPatch() bool {
-	if x == nil {
-		return false
-	}
-	return x.xxx_hidden_Patch != nil
-}
-
-func (x *TenantApplyRequest) ClearRef() {
-	x.xxx_hidden_Ref = nil
-}
-
-func (x *TenantApplyRequest) ClearPatch() {
-	x.xxx_hidden_Patch = nil
-}
-
-type TenantApplyRequest_builder struct {
-	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
-
-	Ref   *TenantRef
-	Patch *patchpb.Patch
-}
-
-func (b0 TenantApplyRequest_builder) Build() *TenantApplyRequest {
-	m0 := &TenantApplyRequest{}
-	b, x := &b0, m0
-	_, _ = b, x
-	x.xxx_hidden_Ref = b.Ref
-	x.xxx_hidden_Patch = b.Patch
-	return m0
-}
-
 type TenantEraseResponse struct {
 	state                  protoimpl.MessageState `protogen:"opaque.v1"`
 	xxx_hidden_Erased      bool                   `protobuf:"varint,1,opt,name=erased"`
@@ -876,7 +783,7 @@ type TenantEraseResponse struct {
 
 func (x *TenantEraseResponse) Reset() {
 	*x = TenantEraseResponse{}
-	mi := &file_apptest_tenant_svc_g_proto_msgTypes[6]
+	mi := &file_apptest_tenant_svc_g_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -888,7 +795,7 @@ func (x *TenantEraseResponse) String() string {
 func (*TenantEraseResponse) ProtoMessage() {}
 
 func (x *TenantEraseResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_apptest_tenant_svc_g_proto_msgTypes[6]
+	mi := &file_apptest_tenant_svc_g_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -949,18 +856,18 @@ var File_apptest_tenant_svc_g_proto protoreflect.FileDescriptor
 
 const file_apptest_tenant_svc_g_proto_rawDesc = "" +
 	"\n" +
-	"\x1aapptest/tenant_svc.g.proto\x12\aapptest\x1a\x14apptest/tenant.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x11patch/patch.proto\"\x85\x02\n" +
-	"\x10TenantAddRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\fR\x02id\x12\x14\n" +
+	"\x1aapptest/tenant_svc.g.proto\x12\aapptest\x1a\x14apptest/tenant.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\torm.proto\"\x8d\x02\n" +
+	"\x10TenantAddRequest\x12\x16\n" +
+	"\x02id\x18\x01 \x01(\fB\x06\xea\x82\x16\x02\x10@R\x02id\x12\x14\n" +
 	"\x05alias\x18\x04 \x01(\tR\x05alias\x12\x12\n" +
 	"\x04name\x18\x05 \x01(\tR\x04name\x12=\n" +
 	"\x06labels\x18\a \x03(\v2%.apptest.TenantAddRequest.LabelsEntryR\x06labels\x12=\n" +
 	"\fdate_created\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampR\vdateCreated\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"$\n" +
-	"\tTenantRef\x12\x10\n" +
-	"\x02id\x18\x01 \x01(\fH\x00R\x02idB\x05\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\",\n" +
+	"\tTenantRef\x12\x18\n" +
+	"\x02id\x18\x01 \x01(\fB\x06\xea\x82\x16\x02\x10@H\x00R\x02idB\x05\n" +
 	"\x03key\"\x85\x01\n" +
 	"\fTenantSelect\x12\x10\n" +
 	"\x03all\x18\x01 \x01(\bR\x03all\x12\x14\n" +
@@ -979,58 +886,48 @@ const file_apptest_tenant_svc_g_proto_rawDesc = "" +
 	"\x06labels\x18\x0e \x03(\v2'.apptest.TenantPatchRequest.LabelsEntryR\x06labels\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"^\n" +
-	"\x12TenantApplyRequest\x12$\n" +
-	"\x03ref\x18\x01 \x01(\v2\x12.apptest.TenantRefR\x03ref\x12\"\n" +
-	"\x05patch\x18\x02 \x01(\v2\f.patch.PatchR\x05patch\"-\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"-\n" +
 	"\x13TenantEraseResponse\x12\x16\n" +
-	"\x06erased\x18\x01 \x01(\bR\x06erased2\x9e\x02\n" +
+	"\x06erased\x18\x01 \x01(\bR\x06erased2\xe7\x01\n" +
 	"\rTenantService\x121\n" +
 	"\x03Add\x12\x19.apptest.TenantAddRequest\x1a\x0f.apptest.Tenant\x121\n" +
 	"\x03Get\x12\x19.apptest.TenantGetRequest\x1a\x0f.apptest.Tenant\x125\n" +
-	"\x05Patch\x12\x1b.apptest.TenantPatchRequest\x1a\x0f.apptest.Tenant\x125\n" +
-	"\x05Apply\x12\x1b.apptest.TenantApplyRequest\x1a\x0f.apptest.Tenant\x129\n" +
+	"\x05Patch\x12\x1b.apptest.TenantPatchRequest\x1a\x0f.apptest.Tenant\x129\n" +
 	"\x05Erase\x12\x12.apptest.TenantRef\x1a\x1c.apptest.TenantEraseResponseB<Z:github.com/protobuf-orm/protoc-gen-orm-go/internal/apptestb\beditionsp\xe8\a"
 
-var file_apptest_tenant_svc_g_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_apptest_tenant_svc_g_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_apptest_tenant_svc_g_proto_goTypes = []any{
 	(*TenantAddRequest)(nil),      // 0: apptest.TenantAddRequest
 	(*TenantRef)(nil),             // 1: apptest.TenantRef
 	(*TenantSelect)(nil),          // 2: apptest.TenantSelect
 	(*TenantGetRequest)(nil),      // 3: apptest.TenantGetRequest
 	(*TenantPatchRequest)(nil),    // 4: apptest.TenantPatchRequest
-	(*TenantApplyRequest)(nil),    // 5: apptest.TenantApplyRequest
-	(*TenantEraseResponse)(nil),   // 6: apptest.TenantEraseResponse
-	nil,                           // 7: apptest.TenantAddRequest.LabelsEntry
-	nil,                           // 8: apptest.TenantPatchRequest.LabelsEntry
-	(*timestamppb.Timestamp)(nil), // 9: google.protobuf.Timestamp
-	(*patchpb.Patch)(nil),         // 10: patch.Patch
-	(*Tenant)(nil),                // 11: apptest.Tenant
+	(*TenantEraseResponse)(nil),   // 5: apptest.TenantEraseResponse
+	nil,                           // 6: apptest.TenantAddRequest.LabelsEntry
+	nil,                           // 7: apptest.TenantPatchRequest.LabelsEntry
+	(*timestamppb.Timestamp)(nil), // 8: google.protobuf.Timestamp
+	(*Tenant)(nil),                // 9: apptest.Tenant
 }
 var file_apptest_tenant_svc_g_proto_depIdxs = []int32{
-	7,  // 0: apptest.TenantAddRequest.labels:type_name -> apptest.TenantAddRequest.LabelsEntry
-	9,  // 1: apptest.TenantAddRequest.date_created:type_name -> google.protobuf.Timestamp
+	6,  // 0: apptest.TenantAddRequest.labels:type_name -> apptest.TenantAddRequest.LabelsEntry
+	8,  // 1: apptest.TenantAddRequest.date_created:type_name -> google.protobuf.Timestamp
 	1,  // 2: apptest.TenantGetRequest.ref:type_name -> apptest.TenantRef
 	2,  // 3: apptest.TenantGetRequest.select:type_name -> apptest.TenantSelect
 	1,  // 4: apptest.TenantPatchRequest.ref:type_name -> apptest.TenantRef
-	8,  // 5: apptest.TenantPatchRequest.labels:type_name -> apptest.TenantPatchRequest.LabelsEntry
-	1,  // 6: apptest.TenantApplyRequest.ref:type_name -> apptest.TenantRef
-	10, // 7: apptest.TenantApplyRequest.patch:type_name -> patch.Patch
-	0,  // 8: apptest.TenantService.Add:input_type -> apptest.TenantAddRequest
-	3,  // 9: apptest.TenantService.Get:input_type -> apptest.TenantGetRequest
-	4,  // 10: apptest.TenantService.Patch:input_type -> apptest.TenantPatchRequest
-	5,  // 11: apptest.TenantService.Apply:input_type -> apptest.TenantApplyRequest
-	1,  // 12: apptest.TenantService.Erase:input_type -> apptest.TenantRef
-	11, // 13: apptest.TenantService.Add:output_type -> apptest.Tenant
-	11, // 14: apptest.TenantService.Get:output_type -> apptest.Tenant
-	11, // 15: apptest.TenantService.Patch:output_type -> apptest.Tenant
-	11, // 16: apptest.TenantService.Apply:output_type -> apptest.Tenant
-	6,  // 17: apptest.TenantService.Erase:output_type -> apptest.TenantEraseResponse
-	13, // [13:18] is the sub-list for method output_type
-	8,  // [8:13] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	7,  // 5: apptest.TenantPatchRequest.labels:type_name -> apptest.TenantPatchRequest.LabelsEntry
+	0,  // 6: apptest.TenantService.Add:input_type -> apptest.TenantAddRequest
+	3,  // 7: apptest.TenantService.Get:input_type -> apptest.TenantGetRequest
+	4,  // 8: apptest.TenantService.Patch:input_type -> apptest.TenantPatchRequest
+	1,  // 9: apptest.TenantService.Erase:input_type -> apptest.TenantRef
+	9,  // 10: apptest.TenantService.Add:output_type -> apptest.Tenant
+	9,  // 11: apptest.TenantService.Get:output_type -> apptest.Tenant
+	9,  // 12: apptest.TenantService.Patch:output_type -> apptest.Tenant
+	5,  // 13: apptest.TenantService.Erase:output_type -> apptest.TenantEraseResponse
+	10, // [10:14] is the sub-list for method output_type
+	6,  // [6:10] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_apptest_tenant_svc_g_proto_init() }
@@ -1048,7 +945,7 @@ func file_apptest_tenant_svc_g_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_apptest_tenant_svc_g_proto_rawDesc), len(file_apptest_tenant_svc_g_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   9,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

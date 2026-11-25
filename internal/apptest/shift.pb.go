@@ -130,11 +130,11 @@ var File_apptest_shift_proto protoreflect.FileDescriptor
 
 const file_apptest_shift_proto_rawDesc = "" +
 	"\n" +
-	"\x13apptest/shift.proto\x12\aapptest\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\torm.proto\"\x9b\x01\n" +
+	"\x13apptest/shift.proto\x12\aapptest\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\torm.proto\"\xa5\x01\n" +
 	"\x05Shift\x12\x18\n" +
 	"\x02id\x18\x01 \x01(\fB\b\xea\x82\x16\x04\x10@(\x01R\x02id\x12\x12\n" +
 	"\x04desk\x18\x02 \x01(\tR\x04desk\x127\n" +
-	"\tstarts_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\bstartsAt:+\xca\xfc\x15'\x12\x02\x10\x01\x1a!\x12\x04slot\x1a\b\n" +
+	"\tstarts_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\bstartsAt:5\xca\xfc\x151\x12\f\x82\x01\x00\x8a\x01\x00\x92\x01\x00\x9a\x01\x00\x1a!\x12\x04slot\x1a\b\n" +
 	"\x04desk\x10\x02\x1a\r\n" +
 	"\tstarts_at\x10\x030\x01BAZ:github.com/protobuf-orm/protoc-gen-orm-go/internal/apptest\x92\x03\x02\b\x02b\beditionsp\xe8\a"
 

@@ -23,7 +23,7 @@ message Shift {
   google.protobuf.Timestamp starts_at = 3;
 
   option (orm.message) = {
-    rpc: {crud: true}
+    rpc: {add: {}, get: {}, patch: {}, erase: {}}
     indexes: [
       {
         name: "slot"
