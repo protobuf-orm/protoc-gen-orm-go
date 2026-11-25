@@ -69,23 +69,39 @@ func (w *fileWork) useGoType(d protoreflect.FieldDescriptor, t ormpb.Type) strin
 
 func (w *work) run(ctx context.Context, gf *protogen.GeneratedFile, entity graph.Entity) error {
 	fw := w.newFileWork(gf, entity)
-	fw.xRefRcvPick()
+
+	// What answers or takes a GetRequest, or its Select, is written only
+	// where there is a Get: protoc-gen-orm-service writes those messages for
+	// the Get and for nothing else. An entity with writes and no Get still
+	// has its Ref, and what a Ref is enough for.
+	get := entity.Rpcs().HasGet()
+	if get {
+		fw.xRefRcvPick()
+	}
 	fw.xRcvRef()
-	fw.xRcvPick()
+	if get {
+		fw.xRcvPick()
+	}
 	fw.xRcvPicks()
-	fw.xRcvWithSelect()
+	if get {
+		fw.xRcvWithSelect()
+	}
 	for p := range entity.Keys() {
 		switch p := p.(type) {
 		case graph.Field:
 			fw.xFnRefByField(p)
-			fw.xFnGetByField(p)
+			if get {
+				fw.xFnGetByField(p)
+			}
 
 		case graph.Edge:
 			panic("ref for edge not implemented")
 
 		case graph.Index:
 			fw.xFnRefByIndex(p)
-			fw.xFnGetByIndex(p)
+			if get {
+				fw.xFnGetByIndex(p)
+			}
 
 		default:
 			panic("unknown type of graph prop")

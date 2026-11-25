@@ -244,3 +244,227 @@ var ShiftService_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "apptest/shift_svc.g.proto",
 }
+
+const (
+	CounterService_Add_FullMethodName   = "/apptest.CounterService/Add"
+	CounterService_Patch_FullMethodName = "/apptest.CounterService/Patch"
+	CounterService_Apply_FullMethodName = "/apptest.CounterService/Apply"
+	CounterService_Erase_FullMethodName = "/apptest.CounterService/Erase"
+)
+
+// CounterServiceClient is the client API for CounterService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type CounterServiceClient interface {
+	// Add creates a new Counter
+	Add(ctx context.Context, in *CounterAddRequest, opts ...grpc.CallOption) (*Counter, error)
+	// Patch updates an existing Counter
+	Patch(ctx context.Context, in *CounterPatchRequest, opts ...grpc.CallOption) (*Counter, error)
+	// Apply applies a patch document to an existing Counter
+	Apply(ctx context.Context, in *CounterApplyRequest, opts ...grpc.CallOption) (*Counter, error)
+	// Erase deletes a Counter
+	Erase(ctx context.Context, in *CounterRef, opts ...grpc.CallOption) (*CounterEraseResponse, error)
+}
+
+type counterServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewCounterServiceClient(cc grpc.ClientConnInterface) CounterServiceClient {
+	return &counterServiceClient{cc}
+}
+
+func (c *counterServiceClient) Add(ctx context.Context, in *CounterAddRequest, opts ...grpc.CallOption) (*Counter, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Counter)
+	err := c.cc.Invoke(ctx, CounterService_Add_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *counterServiceClient) Patch(ctx context.Context, in *CounterPatchRequest, opts ...grpc.CallOption) (*Counter, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Counter)
+	err := c.cc.Invoke(ctx, CounterService_Patch_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *counterServiceClient) Apply(ctx context.Context, in *CounterApplyRequest, opts ...grpc.CallOption) (*Counter, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Counter)
+	err := c.cc.Invoke(ctx, CounterService_Apply_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *counterServiceClient) Erase(ctx context.Context, in *CounterRef, opts ...grpc.CallOption) (*CounterEraseResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CounterEraseResponse)
+	err := c.cc.Invoke(ctx, CounterService_Erase_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// CounterServiceServer is the server API for CounterService service.
+// All implementations must embed UnimplementedCounterServiceServer
+// for forward compatibility.
+type CounterServiceServer interface {
+	// Add creates a new Counter
+	Add(context.Context, *CounterAddRequest) (*Counter, error)
+	// Patch updates an existing Counter
+	Patch(context.Context, *CounterPatchRequest) (*Counter, error)
+	// Apply applies a patch document to an existing Counter
+	Apply(context.Context, *CounterApplyRequest) (*Counter, error)
+	// Erase deletes a Counter
+	Erase(context.Context, *CounterRef) (*CounterEraseResponse, error)
+	mustEmbedUnimplementedCounterServiceServer()
+}
+
+// UnimplementedCounterServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedCounterServiceServer struct{}
+
+func (UnimplementedCounterServiceServer) Add(context.Context, *CounterAddRequest) (*Counter, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Add not implemented")
+}
+func (UnimplementedCounterServiceServer) Patch(context.Context, *CounterPatchRequest) (*Counter, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Patch not implemented")
+}
+func (UnimplementedCounterServiceServer) Apply(context.Context, *CounterApplyRequest) (*Counter, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Apply not implemented")
+}
+func (UnimplementedCounterServiceServer) Erase(context.Context, *CounterRef) (*CounterEraseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Erase not implemented")
+}
+func (UnimplementedCounterServiceServer) mustEmbedUnimplementedCounterServiceServer() {}
+func (UnimplementedCounterServiceServer) testEmbeddedByValue()                        {}
+
+// UnsafeCounterServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CounterServiceServer will
+// result in compilation errors.
+type UnsafeCounterServiceServer interface {
+	mustEmbedUnimplementedCounterServiceServer()
+}
+
+func RegisterCounterServiceServer(s grpc.ServiceRegistrar, srv CounterServiceServer) {
+	// If the following call pancis, it indicates UnimplementedCounterServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&CounterService_ServiceDesc, srv)
+}
+
+func _CounterService_Add_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CounterAddRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CounterServiceServer).Add(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CounterService_Add_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CounterServiceServer).Add(ctx, req.(*CounterAddRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CounterService_Patch_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CounterPatchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CounterServiceServer).Patch(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CounterService_Patch_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CounterServiceServer).Patch(ctx, req.(*CounterPatchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CounterService_Apply_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CounterApplyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CounterServiceServer).Apply(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CounterService_Apply_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CounterServiceServer).Apply(ctx, req.(*CounterApplyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CounterService_Erase_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CounterRef)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CounterServiceServer).Erase(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CounterService_Erase_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CounterServiceServer).Erase(ctx, req.(*CounterRef))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// CounterService_ServiceDesc is the grpc.ServiceDesc for CounterService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var CounterService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "apptest.CounterService",
+	HandlerType: (*CounterServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Add",
+			Handler:    _CounterService_Add_Handler,
+		},
+		{
+			MethodName: "Patch",
+			Handler:    _CounterService_Patch_Handler,
+		},
+		{
+			MethodName: "Apply",
+			Handler:    _CounterService_Apply_Handler,
+		},
+		{
+			MethodName: "Erase",
+			Handler:    _CounterService_Erase_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "apptest/shift_svc.g.proto",
+}

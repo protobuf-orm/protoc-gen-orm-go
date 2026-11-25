@@ -10,6 +10,7 @@
 package apptest
 
 import (
+	patchpb "github.com/lesomnus/protobuf-patch/patchpb"
 	_ "github.com/protobuf-orm/protobuf-orm/ormpb"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -833,11 +834,478 @@ func (b0 ShiftEraseResponse_builder) Build() *ShiftEraseResponse {
 	return m0
 }
 
+type CounterAddRequest struct {
+	state            protoimpl.MessageState `protogen:"opaque.v1"`
+	xxx_hidden_Id    string                 `protobuf:"bytes,1,opt,name=id"`
+	xxx_hidden_Count int64                  `protobuf:"varint,2,opt,name=count"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *CounterAddRequest) Reset() {
+	*x = CounterAddRequest{}
+	mi := &file_apptest_shift_svc_g_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CounterAddRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CounterAddRequest) ProtoMessage() {}
+
+func (x *CounterAddRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_apptest_shift_svc_g_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+func (x *CounterAddRequest) GetId() string {
+	if x != nil {
+		return x.xxx_hidden_Id
+	}
+	return ""
+}
+
+func (x *CounterAddRequest) GetCount() int64 {
+	if x != nil {
+		return x.xxx_hidden_Count
+	}
+	return 0
+}
+
+func (x *CounterAddRequest) SetId(v string) {
+	x.xxx_hidden_Id = v
+}
+
+func (x *CounterAddRequest) SetCount(v int64) {
+	x.xxx_hidden_Count = v
+}
+
+type CounterAddRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Id    string
+	Count int64
+}
+
+func (b0 CounterAddRequest_builder) Build() *CounterAddRequest {
+	m0 := &CounterAddRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.xxx_hidden_Id = b.Id
+	x.xxx_hidden_Count = b.Count
+	return m0
+}
+
+type CounterRef struct {
+	state          protoimpl.MessageState `protogen:"opaque.v1"`
+	xxx_hidden_Key isCounterRef_Key       `protobuf_oneof:"key"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *CounterRef) Reset() {
+	*x = CounterRef{}
+	mi := &file_apptest_shift_svc_g_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CounterRef) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CounterRef) ProtoMessage() {}
+
+func (x *CounterRef) ProtoReflect() protoreflect.Message {
+	mi := &file_apptest_shift_svc_g_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+func (x *CounterRef) GetId() string {
+	if x != nil {
+		if x, ok := x.xxx_hidden_Key.(*counterRef_Id); ok {
+			return x.Id
+		}
+	}
+	return ""
+}
+
+func (x *CounterRef) SetId(v string) {
+	x.xxx_hidden_Key = &counterRef_Id{v}
+}
+
+func (x *CounterRef) HasKey() bool {
+	if x == nil {
+		return false
+	}
+	return x.xxx_hidden_Key != nil
+}
+
+func (x *CounterRef) HasId() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.xxx_hidden_Key.(*counterRef_Id)
+	return ok
+}
+
+func (x *CounterRef) ClearKey() {
+	x.xxx_hidden_Key = nil
+}
+
+func (x *CounterRef) ClearId() {
+	if _, ok := x.xxx_hidden_Key.(*counterRef_Id); ok {
+		x.xxx_hidden_Key = nil
+	}
+}
+
+const CounterRef_Key_not_set_case case_CounterRef_Key = 0
+const CounterRef_Id_case case_CounterRef_Key = 1
+
+func (x *CounterRef) WhichKey() case_CounterRef_Key {
+	if x == nil {
+		return CounterRef_Key_not_set_case
+	}
+	switch x.xxx_hidden_Key.(type) {
+	case *counterRef_Id:
+		return CounterRef_Id_case
+	default:
+		return CounterRef_Key_not_set_case
+	}
+}
+
+type CounterRef_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Fields of oneof xxx_hidden_Key:
+	Id *string
+	// -- end of xxx_hidden_Key
+}
+
+func (b0 CounterRef_builder) Build() *CounterRef {
+	m0 := &CounterRef{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.Id != nil {
+		x.xxx_hidden_Key = &counterRef_Id{*b.Id}
+	}
+	return m0
+}
+
+type case_CounterRef_Key protoreflect.FieldNumber
+
+func (x case_CounterRef_Key) String() string {
+	md := file_apptest_shift_svc_g_proto_msgTypes[8].Descriptor()
+	if x == 0 {
+		return "not set"
+	}
+	return protoimpl.X.MessageFieldStringOf(md, protoreflect.FieldNumber(x))
+}
+
+type isCounterRef_Key interface {
+	isCounterRef_Key()
+}
+
+type counterRef_Id struct {
+	Id string `protobuf:"bytes,1,opt,name=id,oneof"`
+}
+
+func (*counterRef_Id) isCounterRef_Key() {}
+
+type CounterPatchRequest struct {
+	state                  protoimpl.MessageState `protogen:"opaque.v1"`
+	xxx_hidden_Ref         *CounterRef            `protobuf:"bytes,1,opt,name=ref"`
+	xxx_hidden_Count       int64                  `protobuf:"varint,4,opt,name=count"`
+	XXX_raceDetectHookData protoimpl.RaceDetectHookData
+	XXX_presence           [1]uint32
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
+}
+
+func (x *CounterPatchRequest) Reset() {
+	*x = CounterPatchRequest{}
+	mi := &file_apptest_shift_svc_g_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CounterPatchRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CounterPatchRequest) ProtoMessage() {}
+
+func (x *CounterPatchRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_apptest_shift_svc_g_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+func (x *CounterPatchRequest) GetRef() *CounterRef {
+	if x != nil {
+		return x.xxx_hidden_Ref
+	}
+	return nil
+}
+
+func (x *CounterPatchRequest) GetCount() int64 {
+	if x != nil {
+		return x.xxx_hidden_Count
+	}
+	return 0
+}
+
+func (x *CounterPatchRequest) SetRef(v *CounterRef) {
+	x.xxx_hidden_Ref = v
+}
+
+func (x *CounterPatchRequest) SetCount(v int64) {
+	x.xxx_hidden_Count = v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 1, 2)
+}
+
+func (x *CounterPatchRequest) HasRef() bool {
+	if x == nil {
+		return false
+	}
+	return x.xxx_hidden_Ref != nil
+}
+
+func (x *CounterPatchRequest) HasCount() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 1)
+}
+
+func (x *CounterPatchRequest) ClearRef() {
+	x.xxx_hidden_Ref = nil
+}
+
+func (x *CounterPatchRequest) ClearCount() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 1)
+	x.xxx_hidden_Count = 0
+}
+
+type CounterPatchRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Ref   *CounterRef
+	Count *int64
+}
+
+func (b0 CounterPatchRequest_builder) Build() *CounterPatchRequest {
+	m0 := &CounterPatchRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.xxx_hidden_Ref = b.Ref
+	if b.Count != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 1, 2)
+		x.xxx_hidden_Count = *b.Count
+	}
+	return m0
+}
+
+type CounterApplyRequest struct {
+	state            protoimpl.MessageState `protogen:"opaque.v1"`
+	xxx_hidden_Ref   *CounterRef            `protobuf:"bytes,1,opt,name=ref"`
+	xxx_hidden_Patch *patchpb.Patch         `protobuf:"bytes,2,opt,name=patch"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *CounterApplyRequest) Reset() {
+	*x = CounterApplyRequest{}
+	mi := &file_apptest_shift_svc_g_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CounterApplyRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CounterApplyRequest) ProtoMessage() {}
+
+func (x *CounterApplyRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_apptest_shift_svc_g_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+func (x *CounterApplyRequest) GetRef() *CounterRef {
+	if x != nil {
+		return x.xxx_hidden_Ref
+	}
+	return nil
+}
+
+func (x *CounterApplyRequest) GetPatch() *patchpb.Patch {
+	if x != nil {
+		return x.xxx_hidden_Patch
+	}
+	return nil
+}
+
+func (x *CounterApplyRequest) SetRef(v *CounterRef) {
+	x.xxx_hidden_Ref = v
+}
+
+func (x *CounterApplyRequest) SetPatch(v *patchpb.Patch) {
+	x.xxx_hidden_Patch = v
+}
+
+func (x *CounterApplyRequest) HasRef() bool {
+	if x == nil {
+		return false
+	}
+	return x.xxx_hidden_Ref != nil
+}
+
+func (x *CounterApplyRequest) HasPatch() bool {
+	if x == nil {
+		return false
+	}
+	return x.xxx_hidden_Patch != nil
+}
+
+func (x *CounterApplyRequest) ClearRef() {
+	x.xxx_hidden_Ref = nil
+}
+
+func (x *CounterApplyRequest) ClearPatch() {
+	x.xxx_hidden_Patch = nil
+}
+
+type CounterApplyRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Ref   *CounterRef
+	Patch *patchpb.Patch
+}
+
+func (b0 CounterApplyRequest_builder) Build() *CounterApplyRequest {
+	m0 := &CounterApplyRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.xxx_hidden_Ref = b.Ref
+	x.xxx_hidden_Patch = b.Patch
+	return m0
+}
+
+type CounterEraseResponse struct {
+	state                  protoimpl.MessageState `protogen:"opaque.v1"`
+	xxx_hidden_Erased      bool                   `protobuf:"varint,1,opt,name=erased"`
+	XXX_raceDetectHookData protoimpl.RaceDetectHookData
+	XXX_presence           [1]uint32
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
+}
+
+func (x *CounterEraseResponse) Reset() {
+	*x = CounterEraseResponse{}
+	mi := &file_apptest_shift_svc_g_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CounterEraseResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CounterEraseResponse) ProtoMessage() {}
+
+func (x *CounterEraseResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_apptest_shift_svc_g_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+func (x *CounterEraseResponse) GetErased() bool {
+	if x != nil {
+		return x.xxx_hidden_Erased
+	}
+	return false
+}
+
+func (x *CounterEraseResponse) SetErased(v bool) {
+	x.xxx_hidden_Erased = v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 0, 1)
+}
+
+func (x *CounterEraseResponse) HasErased() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 0)
+}
+
+func (x *CounterEraseResponse) ClearErased() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 0)
+	x.xxx_hidden_Erased = false
+}
+
+type CounterEraseResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Erased is whether this call is the one that erased the row.
+	//
+	// False for a row that was already gone, was never there, or is out
+	// of this caller's reach -- which are one answer on purpose, and the
+	// reason the RPC does not fail instead.
+	Erased *bool
+}
+
+func (b0 CounterEraseResponse_builder) Build() *CounterEraseResponse {
+	m0 := &CounterEraseResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.Erased != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 0, 1)
+		x.xxx_hidden_Erased = *b.Erased
+	}
+	return m0
+}
+
 var File_apptest_shift_svc_g_proto protoreflect.FileDescriptor
 
 const file_apptest_shift_svc_g_proto_rawDesc = "" +
 	"\n" +
-	"\x19apptest/shift_svc.g.proto\x12\aapptest\x1a\x13apptest/shift.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\torm.proto\"\x82\x01\n" +
+	"\x19apptest/shift_svc.g.proto\x12\aapptest\x1a\x13apptest/shift.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\torm.proto\x1a\x11patch/patch.proto\"\x82\x01\n" +
 	"\x0fShiftAddRequest\x12\x1b\n" +
 	"\x02id\x18\x01 \x01(\fB\v\xea\x82\x16\x02\x10@\xaa\x01\x02\b\x02R\x02id\x12\x19\n" +
 	"\x04desk\x18\x02 \x01(\tB\x05\xaa\x01\x02\b\x02R\x04desk\x127\n" +
@@ -861,14 +1329,34 @@ const file_apptest_shift_svc_g_proto_rawDesc = "" +
 	"\x04desk\x18\x04 \x01(\tR\x04desk\x127\n" +
 	"\tstarts_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\bstartsAt\",\n" +
 	"\x12ShiftEraseResponse\x12\x16\n" +
+	"\x06erased\x18\x01 \x01(\bR\x06erased\"G\n" +
+	"\x11CounterAddRequest\x12\x15\n" +
+	"\x02id\x18\x01 \x01(\tB\x05\xaa\x01\x02\b\x02R\x02id\x12\x1b\n" +
+	"\x05count\x18\x02 \x01(\x03B\x05\xaa\x01\x02\b\x02R\x05count\"%\n" +
+	"\n" +
+	"CounterRef\x12\x10\n" +
+	"\x02id\x18\x01 \x01(\tH\x00R\x02idB\x05\n" +
+	"\x03key\"R\n" +
+	"\x13CounterPatchRequest\x12%\n" +
+	"\x03ref\x18\x01 \x01(\v2\x13.apptest.CounterRefR\x03ref\x12\x14\n" +
+	"\x05count\x18\x04 \x01(\x03R\x05count\"`\n" +
+	"\x13CounterApplyRequest\x12%\n" +
+	"\x03ref\x18\x01 \x01(\v2\x13.apptest.CounterRefR\x03ref\x12\"\n" +
+	"\x05patch\x18\x02 \x01(\v2\f.patch.PatchR\x05patch\".\n" +
+	"\x14CounterEraseResponse\x12\x16\n" +
 	"\x06erased\x18\x01 \x01(\bR\x06erased2\xde\x01\n" +
 	"\fShiftService\x12/\n" +
 	"\x03Add\x12\x18.apptest.ShiftAddRequest\x1a\x0e.apptest.Shift\x12/\n" +
 	"\x03Get\x12\x18.apptest.ShiftGetRequest\x1a\x0e.apptest.Shift\x123\n" +
 	"\x05Patch\x12\x1a.apptest.ShiftPatchRequest\x1a\x0e.apptest.Shift\x127\n" +
-	"\x05Erase\x12\x11.apptest.ShiftRef\x1a\x1b.apptest.ShiftEraseResponseB<Z:github.com/protobuf-orm/protoc-gen-orm-go/internal/apptestb\beditionsp\xe8\a"
+	"\x05Erase\x12\x11.apptest.ShiftRef\x1a\x1b.apptest.ShiftEraseResponse2\xf4\x01\n" +
+	"\x0eCounterService\x123\n" +
+	"\x03Add\x12\x1a.apptest.CounterAddRequest\x1a\x10.apptest.Counter\x127\n" +
+	"\x05Patch\x12\x1c.apptest.CounterPatchRequest\x1a\x10.apptest.Counter\x127\n" +
+	"\x05Apply\x12\x1c.apptest.CounterApplyRequest\x1a\x10.apptest.Counter\x12;\n" +
+	"\x05Erase\x12\x13.apptest.CounterRef\x1a\x1d.apptest.CounterEraseResponseB<Z:github.com/protobuf-orm/protoc-gen-orm-go/internal/apptestb\beditionsp\xe8\a"
 
-var file_apptest_shift_svc_g_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_apptest_shift_svc_g_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_apptest_shift_svc_g_proto_goTypes = []any{
 	(*ShiftAddRequest)(nil),       // 0: apptest.ShiftAddRequest
 	(*ShiftRefBySlot)(nil),        // 1: apptest.ShiftRefBySlot
@@ -877,30 +1365,48 @@ var file_apptest_shift_svc_g_proto_goTypes = []any{
 	(*ShiftGetRequest)(nil),       // 4: apptest.ShiftGetRequest
 	(*ShiftPatchRequest)(nil),     // 5: apptest.ShiftPatchRequest
 	(*ShiftEraseResponse)(nil),    // 6: apptest.ShiftEraseResponse
-	(*timestamppb.Timestamp)(nil), // 7: google.protobuf.Timestamp
-	(*Shift)(nil),                 // 8: apptest.Shift
+	(*CounterAddRequest)(nil),     // 7: apptest.CounterAddRequest
+	(*CounterRef)(nil),            // 8: apptest.CounterRef
+	(*CounterPatchRequest)(nil),   // 9: apptest.CounterPatchRequest
+	(*CounterApplyRequest)(nil),   // 10: apptest.CounterApplyRequest
+	(*CounterEraseResponse)(nil),  // 11: apptest.CounterEraseResponse
+	(*timestamppb.Timestamp)(nil), // 12: google.protobuf.Timestamp
+	(*patchpb.Patch)(nil),         // 13: patch.Patch
+	(*Shift)(nil),                 // 14: apptest.Shift
+	(*Counter)(nil),               // 15: apptest.Counter
 }
 var file_apptest_shift_svc_g_proto_depIdxs = []int32{
-	7,  // 0: apptest.ShiftAddRequest.starts_at:type_name -> google.protobuf.Timestamp
-	7,  // 1: apptest.ShiftRefBySlot.starts_at:type_name -> google.protobuf.Timestamp
+	12, // 0: apptest.ShiftAddRequest.starts_at:type_name -> google.protobuf.Timestamp
+	12, // 1: apptest.ShiftRefBySlot.starts_at:type_name -> google.protobuf.Timestamp
 	1,  // 2: apptest.ShiftRef.slot:type_name -> apptest.ShiftRefBySlot
 	2,  // 3: apptest.ShiftGetRequest.ref:type_name -> apptest.ShiftRef
 	3,  // 4: apptest.ShiftGetRequest.select:type_name -> apptest.ShiftSelect
 	2,  // 5: apptest.ShiftPatchRequest.ref:type_name -> apptest.ShiftRef
-	7,  // 6: apptest.ShiftPatchRequest.starts_at:type_name -> google.protobuf.Timestamp
-	0,  // 7: apptest.ShiftService.Add:input_type -> apptest.ShiftAddRequest
-	4,  // 8: apptest.ShiftService.Get:input_type -> apptest.ShiftGetRequest
-	5,  // 9: apptest.ShiftService.Patch:input_type -> apptest.ShiftPatchRequest
-	2,  // 10: apptest.ShiftService.Erase:input_type -> apptest.ShiftRef
-	8,  // 11: apptest.ShiftService.Add:output_type -> apptest.Shift
-	8,  // 12: apptest.ShiftService.Get:output_type -> apptest.Shift
-	8,  // 13: apptest.ShiftService.Patch:output_type -> apptest.Shift
-	6,  // 14: apptest.ShiftService.Erase:output_type -> apptest.ShiftEraseResponse
-	11, // [11:15] is the sub-list for method output_type
-	7,  // [7:11] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	12, // 6: apptest.ShiftPatchRequest.starts_at:type_name -> google.protobuf.Timestamp
+	8,  // 7: apptest.CounterPatchRequest.ref:type_name -> apptest.CounterRef
+	8,  // 8: apptest.CounterApplyRequest.ref:type_name -> apptest.CounterRef
+	13, // 9: apptest.CounterApplyRequest.patch:type_name -> patch.Patch
+	0,  // 10: apptest.ShiftService.Add:input_type -> apptest.ShiftAddRequest
+	4,  // 11: apptest.ShiftService.Get:input_type -> apptest.ShiftGetRequest
+	5,  // 12: apptest.ShiftService.Patch:input_type -> apptest.ShiftPatchRequest
+	2,  // 13: apptest.ShiftService.Erase:input_type -> apptest.ShiftRef
+	7,  // 14: apptest.CounterService.Add:input_type -> apptest.CounterAddRequest
+	9,  // 15: apptest.CounterService.Patch:input_type -> apptest.CounterPatchRequest
+	10, // 16: apptest.CounterService.Apply:input_type -> apptest.CounterApplyRequest
+	8,  // 17: apptest.CounterService.Erase:input_type -> apptest.CounterRef
+	14, // 18: apptest.ShiftService.Add:output_type -> apptest.Shift
+	14, // 19: apptest.ShiftService.Get:output_type -> apptest.Shift
+	14, // 20: apptest.ShiftService.Patch:output_type -> apptest.Shift
+	6,  // 21: apptest.ShiftService.Erase:output_type -> apptest.ShiftEraseResponse
+	15, // 22: apptest.CounterService.Add:output_type -> apptest.Counter
+	15, // 23: apptest.CounterService.Patch:output_type -> apptest.Counter
+	15, // 24: apptest.CounterService.Apply:output_type -> apptest.Counter
+	11, // 25: apptest.CounterService.Erase:output_type -> apptest.CounterEraseResponse
+	18, // [18:26] is the sub-list for method output_type
+	10, // [10:18] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_apptest_shift_svc_g_proto_init() }
@@ -913,15 +1419,18 @@ func file_apptest_shift_svc_g_proto_init() {
 		(*shiftRef_Id)(nil),
 		(*shiftRef_Slot)(nil),
 	}
+	file_apptest_shift_svc_g_proto_msgTypes[8].OneofWrappers = []any{
+		(*counterRef_Id)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_apptest_shift_svc_g_proto_rawDesc), len(file_apptest_shift_svc_g_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   12,
 			NumExtensions: 0,
-			NumServices:   1,
+			NumServices:   2,
 		},
 		GoTypes:           file_apptest_shift_svc_g_proto_goTypes,
 		DependencyIndexes: file_apptest_shift_svc_g_proto_depIdxs,

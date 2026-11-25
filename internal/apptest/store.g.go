@@ -27,6 +27,7 @@ import (
 
 type Server interface {
 	Shift() ShiftServiceServer
+	Counter() CounterServiceServer
 	Tenant() TenantServiceServer
 	User() UserServiceServer
 }
@@ -37,53 +38,62 @@ type Server interface {
 // server which is not gRPC's own can be handed the same set of services.
 func RegisterServer(g grpc.ServiceRegistrar, s Server) {
 	RegisterShiftServiceServer(g, s.Shift())
+	RegisterCounterServiceServer(g, s.Counter())
 	RegisterTenantServiceServer(g, s.Tenant())
 	RegisterUserServiceServer(g, s.User())
 }
 
 type UnimplementedServer struct {
-	ShiftServer  ShiftServiceServer
-	TenantServer TenantServiceServer
-	UserServer   UserServiceServer
+	ShiftServer   ShiftServiceServer
+	CounterServer CounterServiceServer
+	TenantServer  TenantServiceServer
+	UserServer    UserServiceServer
 }
 
-func (UnimplementedServer) Shift() ShiftServiceServer   { return UnimplementedShiftServiceServer{} }
-func (UnimplementedServer) Tenant() TenantServiceServer { return UnimplementedTenantServiceServer{} }
-func (UnimplementedServer) User() UserServiceServer     { return UnimplementedUserServiceServer{} }
+func (UnimplementedServer) Shift() ShiftServiceServer     { return UnimplementedShiftServiceServer{} }
+func (UnimplementedServer) Counter() CounterServiceServer { return UnimplementedCounterServiceServer{} }
+func (UnimplementedServer) Tenant() TenantServiceServer   { return UnimplementedTenantServiceServer{} }
+func (UnimplementedServer) User() UserServiceServer       { return UnimplementedUserServiceServer{} }
 
 type StaticServer struct {
-	ShiftServer  ShiftServiceServer
-	TenantServer TenantServiceServer
-	UserServer   UserServiceServer
+	ShiftServer   ShiftServiceServer
+	CounterServer CounterServiceServer
+	TenantServer  TenantServiceServer
+	UserServer    UserServiceServer
 }
 
-func (s StaticServer) Shift() ShiftServiceServer   { return s.ShiftServer }
-func (s StaticServer) Tenant() TenantServiceServer { return s.TenantServer }
-func (s StaticServer) User() UserServiceServer     { return s.UserServer }
+func (s StaticServer) Shift() ShiftServiceServer     { return s.ShiftServer }
+func (s StaticServer) Counter() CounterServiceServer { return s.CounterServer }
+func (s StaticServer) Tenant() TenantServiceServer   { return s.TenantServer }
+func (s StaticServer) User() UserServiceServer       { return s.UserServer }
 
 type Client interface {
 	Shift() ShiftServiceClient
+	Counter() CounterServiceClient
 	Tenant() TenantServiceClient
 	User() UserServiceClient
 }
 
 func NewClient(c *grpc.ClientConn) Client {
 	return &client{
-		_Shift:  NewShiftServiceClient(c),
-		_Tenant: NewTenantServiceClient(c),
-		_User:   NewUserServiceClient(c),
+		_Shift:   NewShiftServiceClient(c),
+		_Counter: NewCounterServiceClient(c),
+		_Tenant:  NewTenantServiceClient(c),
+		_User:    NewUserServiceClient(c),
 	}
 }
 
 type client struct {
-	_Shift  ShiftServiceClient
-	_Tenant TenantServiceClient
-	_User   UserServiceClient
+	_Shift   ShiftServiceClient
+	_Counter CounterServiceClient
+	_Tenant  TenantServiceClient
+	_User    UserServiceClient
 }
 
-func (c *client) Shift() ShiftServiceClient   { return c._Shift }
-func (c *client) Tenant() TenantServiceClient { return c._Tenant }
-func (c *client) User() UserServiceClient     { return c._User }
+func (c *client) Shift() ShiftServiceClient     { return c._Shift }
+func (c *client) Counter() CounterServiceClient { return c._Counter }
+func (c *client) Tenant() TenantServiceClient   { return c._Tenant }
+func (c *client) User() UserServiceClient       { return c._User }
 
 // Middleware is a server that delegates to another server.
 type Middleware interface {
